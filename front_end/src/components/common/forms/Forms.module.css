@@ -1,0 +1,33 @@
+.form {
+  height: auto;
+  width: 28%;
+  border: 1px solid rgb(255, 255, 255);
+  border-radius: 4px;
+  margin: auto;
+  margin-top: 7%;
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(243, 243, 243);
+  padding-bottom: 20px;
+  /* align-items: center; */
+}
+
+.form h2 {
+  text-align: center;
+  font-weight: bold;
+}
+
+.form span {
+  margin-left: 20px;
+  margin-top: 18px;
+  font-size: larger;
+}
+
+.form input {
+  margin-left: 20px;
+  padding: 10px;
+  margin-top: 15px;
+  width: 85%;
+  border-radius: 5px;
+  border: 1px solid black;
+}

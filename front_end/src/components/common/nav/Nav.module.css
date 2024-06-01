@@ -1,0 +1,32 @@
+.nav {
+  height: 6vh;
+  width: auto;
+  color: black;
+  overflow: hidden;
+  padding: 10px;
+}
+
+.nav ul {
+  /* border: 2px solid rgb(149, 0, 255); */
+  display: flex;
+  justify-content: end;
+  padding: 10px 10px 15px;
+  margin-top: 0px;
+}
+
+.nav li {
+  list-style: none;
+  margin-left: 3%;
+  margin-right: 2%;
+  font-size: large;
+}
+
+.nav a {
+  text-decoration: none;
+  color: black;
+}
+
+
+.nav a:hover{
+  color: rgb(156, 49, 255);
+}

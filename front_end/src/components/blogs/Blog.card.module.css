@@ -1,0 +1,60 @@
+.blog {
+  /* border: 2px solid black; */
+  height: 50vh;
+  min-height: 50vh;
+  width: 30%;
+  min-width: 30%;
+  margin-left: 15px;
+  border-radius: 10px;
+  transition: 0.5s ease;
+}
+
+.blog h1 {
+  padding: 0%;
+}
+
+.tags {
+  /* border: 2px solid black; */
+  display: flex;
+  height: 8%;
+  width: 100%;
+}
+
+.tags h3 {
+  padding: 4px;
+  margin: 0px;
+}
+
+.tags span {
+  background-color: rgb(228, 228, 228);
+  padding: 5px;
+  border-radius: 5px;
+  margin-left: 5px;
+}
+
+.img {
+  border: 1px solid black;
+  width: 100%;
+  height: 60%;
+  border-radius: 10px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.title p {
+  padding: 5px;
+  margin: 0px;
+}
+
+.shortDescription p {
+  padding: 5px;
+  margin: 0px;
+}
+
+.blog:hover {
+    cursor: pointer;
+    transform: scale(1.02);
+}

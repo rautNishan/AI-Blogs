@@ -1,0 +1,19 @@
+.login{
+    margin-top: 100px;
+    height: auto;
+    width: auto;
+}
+
+.newToApp{
+    text-align: center;
+    width: 28%;
+    padding-top: 2.5px;
+    padding-bottom:2.5px;
+    margin: auto;
+    margin-top: 20px;
+    background-color: rgb(243, 243, 243);
+    border-radius: 4px;
+}
+.newToApp p  {
+    font-size: 17px;
+}
