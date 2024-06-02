@@ -1,9 +1,16 @@
 .nav {
   height: 6vh;
-  width: auto;
+  width: 100%;
   color: black;
   overflow: hidden;
   padding: 10px;
+  position: fixed;
+  top:0;
+  left: 0;
+  z-index: 100;
+  background-color: rgb(255, 255, 255);
+  /* border: 2px solid black; */
+
 }
 
 .nav ul {
@@ -30,3 +37,4 @@
 .nav a:hover{
   color: rgb(156, 49, 255);
 }
+
