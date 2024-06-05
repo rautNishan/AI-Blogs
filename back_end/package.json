@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "start": "node ./dist/server.js",
-    "start:dev": "npm run build && nodemon ./src/server.ts"
+    "clean": "powershell -Command \"if (Test-Path .\\dist) { Remove-Item -Recurse -Force .\\dist }\"",
+    "start:dev": "npm run clean && npm run build && nodemon ./src/server.ts"
   },
   "keywords": [],
   "author": "",
