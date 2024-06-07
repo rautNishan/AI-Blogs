@@ -4,4 +4,4 @@
 # Ignore node_modules in frontend
 /front_end/node_modules
 
-.env
+/back_end/.env
