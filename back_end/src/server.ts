@@ -1,10 +1,13 @@
-import express from "express";
-import { Express, Request, Response } from "express";
-import { userRouter } from "./routes/user.route";
+import express, { Express, Request, Response } from "express";
+import { IResponse } from "./common/response/interfaces/response.interface";
 import { GlobalExceptionFilter } from "./middlewares/error/global.filter.error";
+import { userRouter } from "./routes/user.route";
+import { HttpException } from "./exceptions/HttpExceptions";
+import { ResponseInterCeptor } from "./common/response/interceptors/response.interceptors";
 
 const app: Express = express();
 const port: number = 3000;
+app.use(ResponseInterCeptor);
 
 app.use("/user", userRouter);
 

@@ -6,10 +6,19 @@ export function ResponseInterCeptor(
   res: Response,
   next: NextFunction
 ) {
-  const response: IResponse<any> = {
-    date: new Date(),
-    path: req.url,
-    message: "",
-    data: "",
+  const originalResponse = res.json;
+  res.json = function (incomingData: Record<string, any>) {
+    if (res.statusCode < 400) {
+      const response: IResponse = {
+        date: new Date(),
+        path: req.url,
+        message: "This is Message",
+        data: incomingData,
+      };
+      return originalResponse.call(this, response);
+    } else {
+      return originalResponse.call(this, incomingData);
+    }
   };
+  next();
 }
