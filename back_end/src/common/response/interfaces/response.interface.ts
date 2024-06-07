@@ -9,5 +9,5 @@ export interface IExceptionResponse {
   date: Date;
   path: string;
   statusCode: number;
-  message: string;
+  message: string | object;
 }

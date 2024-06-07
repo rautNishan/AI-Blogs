@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const global_filter_error_1 = require("./middlewares/error/global.filter.error");
 const user_route_1 = require("./routes/user.route");
 const response_interceptors_1 = require("./common/response/interceptors/response.interceptors");
+const connection_1 = require("./database/connection/connection");
 const app = (0, express_1.default)();
 const port = 3000;
 app.use(response_interceptors_1.ResponseInterCeptor);
@@ -15,4 +16,6 @@ app.get("/", (req, res) => {
     res.send("This is Js is ts");
 });
 app.use(global_filter_error_1.GlobalExceptionFilter);
-app.listen(port, () => console.log(`Listing to port ${3000}`));
+connection_1.DBConnection.connection().then(() => {
+    app.listen(port, () => console.log(`Listing to port ${3000}`));
+});

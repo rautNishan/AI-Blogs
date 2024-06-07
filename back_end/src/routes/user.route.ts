@@ -14,6 +14,5 @@ userRouter.get("/", (req: Request, res: Response, next: NextFunction) => {
 
 userRouter.get("/err", (req: Request, res: Response) => {
   console.log("This is in error route");
-
   throw new HttpException(400, "Test error");
 });

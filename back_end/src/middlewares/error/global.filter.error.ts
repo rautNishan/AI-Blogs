@@ -1,9 +1,10 @@
 import { IExceptionResponse } from "../../common/response/interfaces/response.interface";
+import { DatabaseException } from "../../exceptions/DataBaseException";
 import { HttpException } from "../../exceptions/HttpExceptions";
 import { NextFunction, Request, Response } from "express";
 
 export function GlobalExceptionFilter(
-  err: HttpException,
+  err: HttpException | DatabaseException | Error,
   req: Request,
   res: Response,
   next: NextFunction
@@ -14,7 +15,12 @@ export function GlobalExceptionFilter(
 
   const statusCode =
     err instanceof HttpException ? err.statusCode : defaultStatusCode;
-  const message = err instanceof HttpException ? err.message : defaultMessage;
+  const message =
+    err instanceof HttpException
+      ? err.message
+      : err instanceof DatabaseException
+      ? err.message
+      : defaultMessage;
 
   const response: IExceptionResponse = {
     date: new Date(),
