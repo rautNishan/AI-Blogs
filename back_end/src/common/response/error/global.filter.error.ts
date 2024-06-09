@@ -1,6 +1,6 @@
-import { IExceptionResponse } from "../../common/response/interfaces/response.interface";
-import { DatabaseException } from "../../exceptions/DataBaseException";
-import { HttpException } from "../../exceptions/HttpExceptions";
+import { IExceptionResponse } from "../interfaces/response.interface";
+import { DatabaseException } from "../../../exceptions/database-exception";
+import { HttpException } from "../../../exceptions/http-exceptions";
 import { NextFunction, Request, Response } from "express";
 
 export function GlobalExceptionFilter(
@@ -28,5 +28,5 @@ export function GlobalExceptionFilter(
     statusCode,
     message,
   };
-  res.status(statusCode).send(response);
+  return res.status(statusCode).send(response);
 }

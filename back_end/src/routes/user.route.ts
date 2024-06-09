@@ -1,5 +1,5 @@
 import express, { NextFunction, Request, Response, Router } from "express";
-import { HttpException } from "../exceptions/HttpExceptions";
+import { HttpException } from "../exceptions/http-exceptions";
 
 export const userRouter: Router = express.Router();
 

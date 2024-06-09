@@ -1,5 +1,5 @@
 import { DataSource } from "typeorm";
-import { DatabaseException } from "../../exceptions/DataBaseException";
+import { DatabaseException } from "../../exceptions/database-exception";
 import databaseConfig from "../config/database.config";
 
 export class DBConnection {

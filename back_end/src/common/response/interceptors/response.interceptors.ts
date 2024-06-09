@@ -12,7 +12,7 @@ export function ResponseInterCeptor(
       const response: IResponse = {
         date: new Date(),
         path: req.url,
-        message: "This is Message",
+        message: "This is Yet to come",
         data: incomingData,
       };
       return originalResponse.call(this, response);
