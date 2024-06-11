@@ -5,5 +5,5 @@ export interface IAppOptions {
   port: number;
   beforeRouteMiddlewares?: any[];
   routes: ICustomRouter[];
-  afterRouteMiddleWares: any[];
+  afterRouteMiddleWares?: any[];
 }
