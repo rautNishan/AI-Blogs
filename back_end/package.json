@@ -8,7 +8,11 @@
     "build": "tsc",
     "start": "node ./dist/server.js",
     "clean": "powershell -Command \"if (Test-Path .\\dist) { Remove-Item -Recurse -Force .\\dist }\"",
-    "start:dev": "npm run clean && npm run build && nodemon ./src/server.ts"
+    "start:dev": "npm run clean && npm run build && nodemon ./src/server.ts",
+    "migration:create": "typeorm migration:create",
+    "migration:generate": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:generate -d ./src/database/data-source/app.data-source.ts",
+    "migration:run": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js  migration:run  -d ./src/database/data-source/app.data-source.ts",
+    "migration:revert": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert -d ./src/database/data-source/app.data-source.ts"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +27,7 @@
     "@types/node": "^20.14.1",
     "nodemon": "^3.1.3",
     "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.4.5"
   }
 }

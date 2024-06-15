@@ -19,7 +19,7 @@ export class DataBaseBaseEntity extends BaseEntity {
   createdAt: Date;
 
   @DeleteDateColumn({ type: "timestamptz", name: "deleted_at" })
-  deletedAt: Date;
+  deletedAt: Date | null;
 
   @UpdateDateColumn({ type: "timestamptz", name: "updated_at" })
   updatedAt: Date;

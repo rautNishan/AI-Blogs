@@ -1,11 +1,18 @@
 import express, { NextFunction, Request, Response, Router } from "express";
 import { HttpException } from "../exceptions/http-exceptions";
 import { HttpStatusCode } from "../common/constants/http.status.code";
+import { UserController } from "../modules/users/controllers/user.controller";
 
 export const userRouter: Router = express.Router();
 
+const userController: UserController = new UserController();
+
+userRouter.post("/create", async (req: Request, res: Response) => {
+  const createdData = await userController.create();
+  res.send(createdData);
+});
 //get user
-userRouter.get("/", (req: Request, res: Response, next: NextFunction) => {
+userRouter.get("/", (req: Request, res: Response) => {
   // res.send("This is User Get Router");
   console.log("This is Get User");
   res.send({

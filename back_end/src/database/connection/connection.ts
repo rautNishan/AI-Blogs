@@ -14,6 +14,8 @@ export class DBConnection {
         username: databaseConfig.username,
         password: databaseConfig.password,
         database: databaseConfig.database,
+        entities: ["./src/**/*.entity{.ts,.js}"],
+        migrations: ["./src/database/migrations/*{.ts,.js}"],
       });
     }
     try {
