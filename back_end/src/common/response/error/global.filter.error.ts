@@ -9,7 +9,6 @@ export function GlobalExceptionFilter(
   res: Response,
   next: NextFunction
 ) {
-  console.log("This is Global Error Filter: ", err);
   const defaultStatusCode = 500;
   const defaultMessage = "Internal Server Error";
 
