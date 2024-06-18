@@ -6,6 +6,7 @@ export class DBConnection {
   private static dataSource: DataSource;
 
   public static async connection() {
+    console.log("Trying to connect....");
     if (!this.dataSource) {
       this.dataSource = new DataSource({
         type: "postgres",

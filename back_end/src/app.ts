@@ -2,12 +2,14 @@ import { Express } from "express";
 import { IAppOptions } from "./common/interfaces/app.interfaces";
 import { DBConnection } from "./database/connection/connection";
 import { ICustomRouter } from "./common/interfaces/router.interface";
-export class App {
+export class AppInit {
   private app: Express;
 
   private port: number;
 
   constructor(options: IAppOptions) {
+    console.log("The App is Being Initialize.....");
+
     this.app = options.app;
     this.port = options.port;
 
@@ -26,15 +28,8 @@ export class App {
 
   private initializeRoutes(routes: ICustomRouter[]) {
     routes.forEach((route) => {
+      console.log(`Initializing Routes ${route.routeName}`);
       this.app.use(route.routeName, route.router);
-    });
-  }
-
-  public async startServer() {
-    await DBConnection.connection().then(() => {
-      this.app.listen(this.port, () => {
-        console.log(`Listing to port ${this.port}`);
-      });
     });
   }
 }

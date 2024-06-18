@@ -1,18 +1,32 @@
-import express, { Express, Request, Response } from "express";
+import express, { Express } from "express";
+import { AppInit } from "./app";
 import { GlobalExceptionFilter } from "./common/response/error/global.filter.error";
 import { ResponseInterCeptor } from "./common/response/interceptors/response.interceptors";
-import { userRouter } from "./routes/user.route";
-import { App } from "./app";
+import { DBConnection } from "./database/connection/connection";
+import { userRouterFactory } from "./routes/user.route";
 
-const app: Express = express();
-const port: number = 3000;
+export async function main() {
+  try {
+    const app: Express = express();
+    const port: number = 3000;
 
-const server = new App({
-  app: app,
-  port: port,
-  beforeRouteMiddlewares: [ResponseInterCeptor],
-  routes: [{ routeName: "/user", router: userRouter }],
-  afterRouteMiddleWares: [GlobalExceptionFilter],
-});
+    console.log("Initializing DataBae....");
+    await DBConnection.connection().then(() => {
+      app.listen(port, () => {
+        console.log(`Listing to port ${port}`);
+      });
+    });
 
-server.startServer();
+    new AppInit({
+      app: app,
+      port: port,
+      beforeRouteMiddlewares: [ResponseInterCeptor],
+      routes: [{ routeName: "/user", router: userRouterFactory() }],
+      afterRouteMiddleWares: [GlobalExceptionFilter],
+    });
+  } catch (err) {
+    console.log("This is Error: ", err);
+  }
+}
+
+main();
