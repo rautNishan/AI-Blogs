@@ -2,6 +2,7 @@ import express, { Request, Response, Router } from "express";
 import { HttpStatusCode } from "../common/constants/http.status.code";
 import { HttpException } from "../exceptions/http-exceptions";
 import { UserController } from "../modules/users/controllers/user.controller";
+import { RequestBodyValidation } from "../common/request/validator/request.body.validator";
 import { UserCreateDto } from "../modules/users/dtos/user.create.dto";
 
 export function userRouterFactory(): Router {
@@ -11,6 +12,7 @@ export function userRouterFactory(): Router {
 
   userRouter.post(
     "/create",
+    RequestBodyValidation(UserCreateDto),
     async (req: Request, res: Response) => {
       console.log("Incoming Request.................................");
       const incomingData = req.body;

@@ -16,6 +16,7 @@ export async function main() {
         console.log(`Listing to port ${port}`);
       });
     });
+
     new AppInit({
       app: app,
       port: port,

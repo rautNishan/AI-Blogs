@@ -7,8 +7,8 @@ export class DBConnection {
 
   public static async connection() {
     console.log("Trying to connect....");
-    if (!this.dataSource) {
-      this.dataSource = new DataSource({
+    if (!DBConnection.dataSource) {
+      DBConnection.dataSource = new DataSource({
         type: "postgres",
         host: databaseConfig.host,
         port: Number(databaseConfig.port) || 5432,
@@ -29,9 +29,9 @@ export class DBConnection {
   }
 
   public static getConnection(): DataSource {
-    if (!this.dataSource) {
+    if (!DBConnection.dataSource) {
       throw new DatabaseException("Database is not even connected");
     }
-    return this.dataSource;
+    return DBConnection.dataSource;
   }
 }
