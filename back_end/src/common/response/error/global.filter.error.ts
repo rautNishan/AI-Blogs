@@ -1,8 +1,8 @@
 import { IExceptionResponse } from "../interfaces/response.interface";
-import { DatabaseException } from "../../../exceptions/database-exception";
-import { HttpException } from "../../../exceptions/http-exceptions";
+import { DatabaseException } from "../../exceptions/database-exception";
+import { HttpException } from "../../exceptions/http-exceptions";
 import { NextFunction, Request, Response } from "express";
-import { ValidationException } from "../../../exceptions/validation-exceptions";
+import { ValidationException } from "../../exceptions/validation-exceptions";
 
 export function GlobalExceptionFilter(
   err: HttpException | DatabaseException | ValidationException | Error,

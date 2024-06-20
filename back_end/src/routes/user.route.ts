@@ -1,24 +1,25 @@
 import express, { Request, Response, Router } from "express";
 import { HttpStatusCode } from "../common/constants/http.status.code";
-import { HttpException } from "../exceptions/http-exceptions";
+import { HttpException } from "../common/exceptions/http-exceptions";
 import { UserController } from "../modules/users/controllers/user.controller";
 import { RequestBodyValidation } from "../common/request/validator/request.body.validator";
 import { UserCreateDto } from "../modules/users/dtos/user.create.dto";
+import { UserProtectedGuard } from "../common/request/guards/authenticated.user";
 
 export function userRouterFactory(): Router {
   const userRouter: Router = express.Router();
 
   const userController: UserController = new UserController();
 
+  //User all User Tasks
   userRouter.post(
     "/create",
+    UserProtectedGuard,
     RequestBodyValidation(UserCreateDto),
     async (req: Request, res: Response) => {
-      console.log("Incoming Request.................................");
       const incomingData = req.body;
       const createdData = await userController.create(incomingData);
-      console.log("This is CreatedData: ", createdData);
-      res.send(createdData);
+      res.json(createdData);
     }
   );
   //get user

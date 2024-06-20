@@ -1,7 +1,7 @@
 import { plainToInstance } from "class-transformer";
 import { validate } from "class-validator";
 import { NextFunction, Request, Response } from "express";
-import { ValidationException } from "../../../exceptions/validation-exceptions";
+import { ValidationException } from "../../exceptions/validation-exceptions";
 import { HttpStatusCode } from "../../constants/http.status.code";
 
 export function RequestBodyValidation(
