@@ -101,13 +101,10 @@ export class BaseRepository<T extends DataBaseBaseEntity>
     return await this._repo.save(entity);
   }
 
-  async hardDelete(
-    entity: T,
-    options?: IOnlyEntityManager
-  ): Promise<DeleteResult> {
+  async hardDelete(entity: T, options?: IOnlyEntityManager): Promise<T> {
     if (options?.entityManage) {
-      return await options.entityManage.delete(this._repo.target, entity.id);
+      return await options.entityManage.remove(entity);
     }
-    return await this._repo.delete(entity.id);
+    return await this._repo.remove(entity);
   }
 }

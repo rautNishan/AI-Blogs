@@ -10,4 +10,6 @@ export interface IUser {
   fullName: IFullName;
   password: string;
   role: USER_ROLE;
+  email?: string;
+  userName: string;
 }

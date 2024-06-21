@@ -4,17 +4,18 @@ import { HttpException } from "../common/exceptions/http-exceptions";
 import { UserController } from "../modules/users/controllers/user.controller";
 import { RequestBodyValidation } from "../common/request/validator/request.body.validator";
 import { UserCreateDto } from "../modules/users/dtos/user.create.dto";
-import { UserProtectedGuard } from "../common/request/guards/authenticated.user";
+import { UserLoginDto } from "../modules/auth/dtos/user.login.dto";
+import { ValidationException } from "../common/exceptions/validation-exceptions";
+import { AuthUserController } from "../modules/auth/controllers/auth.user.controller";
 
 export function userRouterFactory(): Router {
   const userRouter: Router = express.Router();
 
   const userController: UserController = new UserController();
 
-  //User all User Tasks
   userRouter.post(
     "/create",
-    UserProtectedGuard,
+    // UserProtectedGuard,
     RequestBodyValidation(UserCreateDto),
     async (req: Request, res: Response) => {
       const incomingData = req.body;
@@ -35,6 +36,31 @@ export function userRouterFactory(): Router {
     console.log("This is in error route");
     throw new HttpException(HttpStatusCode.INTERNAL_SERVER_ERROR, "Test error");
   });
+
+  //Auth
+  const authUserController: AuthUserController = new AuthUserController();
+
+  userRouter.post(
+    "/auth/login",
+    RequestBodyValidation(UserLoginDto),
+    async (req: Request, res: Response) => {
+      try {
+        const { email, userName } = req.body;
+        if (!email && !userName) {
+          throw new ValidationException(
+            HttpStatusCode.UNPROCESSABLE_ENTITY,
+            "At least one email or username is required."
+          );
+        }
+        const data = await authUserController.login(req.body);
+        console.log("This is Data: ", data);
+
+        return data;
+      } catch (error) {
+        throw error;
+      }
+    }
+  );
 
   return userRouter;
 }
