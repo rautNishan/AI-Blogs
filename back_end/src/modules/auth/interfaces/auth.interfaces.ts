@@ -1,5 +1,5 @@
 import { Jwt, JwtPayload, Secret, SignOptions } from "jsonwebtoken";
-import { USER_ROLE } from "../../constants/roles.constant";
+import { USER_ROLE } from "../../../common/constants/roles.constant";
 
 export interface IAuth {
   login: (incomingData: ILoginIncomingData) => Promise<string>;
@@ -13,6 +13,11 @@ export interface IAuth {
     secretKey: Secret,
     options?: SignOptions
   ) => Promise<Jwt | JwtPayload | string>;
+
+  verifyPassword: (
+    incomingPassword: string,
+    dbPassword: string
+  ) => Promise<boolean>;
 }
 
 export interface ILoginIncomingData {
@@ -23,7 +28,6 @@ export interface ILoginIncomingData {
 
 export interface ICreateTokenData {
   id: number;
-  userName?: string;
-  email?: string;
+  userName: string;
   userRole: USER_ROLE;
 }

@@ -13,7 +13,7 @@ export interface IBaseRepository<T> {
   getOne(options?: IFindOneOption<T>): Promise<T | null>;
   softDelete(entity: T, options?: IOnlyEntityManager): Promise<T>;
   restore(entity: T, options?: IOnlyEntityManager): Promise<T>;
-  hardDelete(entity: T, options?: IOnlyEntityManager): Promise<DeleteResult>;
+  hardDelete(entity: T, options?: IOnlyEntityManager): Promise<T>;
 }
 
 export interface ICreateOptions {

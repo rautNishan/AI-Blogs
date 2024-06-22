@@ -11,6 +11,7 @@ export async function main() {
     const port: number = 3000;
 
     console.log("Initializing DataBae....");
+
     await DBConnection.connection().then(() => {
       app.listen(port, () => {
         console.log(`Listing to port ${port}`);

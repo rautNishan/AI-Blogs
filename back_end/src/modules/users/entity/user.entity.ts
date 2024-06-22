@@ -29,4 +29,20 @@ export class UserEntity extends DataBaseBaseEntity implements IUser {
     nullable: false,
   })
   role: USER_ROLE;
+
+  @Column({
+    name: "email",
+    type: "varchar",
+    length:250,
+    nullable:true
+  })
+  email?: string;
+
+  @Column({
+    name:'user_name',
+    type:'varchar',
+    length:250,
+    nullable:false
+  })
+  userName: string;
 }
