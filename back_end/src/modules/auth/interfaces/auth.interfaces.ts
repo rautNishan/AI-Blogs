@@ -8,7 +8,7 @@ export interface IAuth {
     secretKey: Secret,
     options?: SignOptions
   ) => Promise<string>;
-  verifyToken: (
+  decodeToken: (
     token: string,
     secretKey: Secret,
     options?: SignOptions

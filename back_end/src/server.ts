@@ -4,6 +4,7 @@ import { GlobalExceptionFilter } from "./common/response/error/global.filter.err
 import { ResponseInterCeptor } from "./common/response/interceptors/response.interceptors";
 import { DBConnection } from "./database/connection/connection";
 import { userRouterFactory } from "./routes/user.route";
+import { adminRouterFactory } from "./routes/admin.route";
 
 export async function main() {
   try {
@@ -22,7 +23,10 @@ export async function main() {
       app: app,
       port: port,
       beforeRouteMiddlewares: [express.json(), ResponseInterCeptor],
-      routes: [{ routeName: "/user", router: userRouterFactory() }],
+      routes: [
+        { routeName: "/user", router: userRouterFactory() },
+        { routeName: "/admin", router: adminRouterFactory() },
+      ],
       afterRouteMiddleWares: [GlobalExceptionFilter],
     });
   } catch (err) {

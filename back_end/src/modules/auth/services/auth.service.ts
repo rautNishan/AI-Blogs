@@ -18,6 +18,7 @@ import {
   ICreateTokenData,
   ILoginIncomingData,
 } from "../interfaces/auth.interfaces";
+import requestConfig from "../../../common/request/config/request.config";
 
 export class AuthService implements IAuth {
   private static _instance: AuthService;
@@ -83,13 +84,9 @@ export class AuthService implements IAuth {
         userRole: existingUser.role,
       };
 
-      return await this.createToken(
-        payLoad,
-        "ahsdkjashdkjshdkjahsakdhaasjdhakjdhakjhdkadhksahdkashdkjahdsakdhsak",
-        {
-          expiresIn: "1d",
-        }
-      );
+      return await this.createToken(payLoad, requestConfig.secretKey!, {
+        expiresIn: "1d",
+      });
     } catch (error) {
       throw error;
     }
@@ -103,7 +100,7 @@ export class AuthService implements IAuth {
     return jwt.sign(payload, secretKey, options);
   }
 
-  async verifyToken(
+  async decodeToken(
     token: string,
     secretKey: Secret,
     options?: VerifyOptions
@@ -120,6 +117,6 @@ export class AuthService implements IAuth {
       incomingPassword,
       dbPassword
     );
-    return false;
+    return isPasswordCorrect;
   }
 }

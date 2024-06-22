@@ -2,6 +2,7 @@ import { DeepPartial, DeleteResult, FindOneOptions, Repository } from "typeorm";
 import {
   IBaseRepository,
   ICreateOptions,
+  IFindAllOptions,
   IFindByIdOptions,
   IFindOneOption,
   IOnlyEntityManager,
@@ -82,6 +83,13 @@ export class BaseRepository<T extends DataBaseBaseEntity>
     }
 
     return this._repo.findOne(find);
+  }
+
+  async getAll(options?: IFindAllOptions<T> | undefined): Promise<T[]> {
+    if (options?.entityManager) {
+      return await options.entityManager.find(this._repo.target, options);
+    }
+    return this._repo.find(options);
   }
 
   async softDelete(entity: T, options?: IOnlyEntityManager): Promise<T> {

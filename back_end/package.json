@@ -8,6 +8,7 @@
     "build": "tsc",
     "start": "node ./dist/server.js",
     "clean": "powershell -Command \"if (Test-Path .\\dist) { Remove-Item -Recurse -Force .\\dist }\"",
+    "seed:admin":"npx ts-node -r tsconfig-paths/register ./src/database/seed/admin.seed.ts",
     "start:dev": "npm run clean && npm run build && nodemon ./src/server.ts",
     "migration:create": "typeorm migration:create",
     "migration:generate": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:generate -d ./src/database/data-source/app.data-source.ts",

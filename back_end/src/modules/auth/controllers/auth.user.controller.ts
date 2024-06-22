@@ -8,7 +8,6 @@ export class AuthUserController {
   }
 
   async login(data: UserLoginDto) {
-    const data1 = await this._authService.login(data);
-    return data1;
+    return await this._authService.login(data);
   }
 }
