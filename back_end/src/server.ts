@@ -5,6 +5,7 @@ import { ResponseInterCeptor } from "./common/response/interceptors/response.int
 import { DBConnection } from "./database/connection/connection";
 import { userRouterFactory } from "./routes/user.route";
 import { adminRouterFactory } from "./routes/admin.route";
+import cors from "cors";
 
 export async function main() {
   try {
@@ -22,7 +23,7 @@ export async function main() {
     new AppInit({
       app: app,
       port: port,
-      beforeRouteMiddlewares: [express.json(), ResponseInterCeptor],
+      beforeRouteMiddlewares: [cors(), express.json(), ResponseInterCeptor],
       routes: [
         { routeName: "/user", router: userRouterFactory() },
         { routeName: "/admin", router: adminRouterFactory() },
