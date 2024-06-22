@@ -1,4 +1,4 @@
-import express, { Request, Response, Router } from "express";
+import express, { NextFunction, Request, Response, Router } from "express";
 import { HttpStatusCode } from "../common/constants/http.status.code";
 import { HttpException } from "../common/exceptions/http-exceptions";
 import { UserController } from "../modules/users/controllers/user.controller";
@@ -7,6 +7,7 @@ import { UserCreateDto } from "../modules/users/dtos/user.create.dto";
 import { UserLoginDto } from "../modules/auth/dtos/user.login.dto";
 import { ValidationException } from "../common/exceptions/validation-exceptions";
 import { AuthUserController } from "../modules/auth/controllers/auth.user.controller";
+import { asyncHandler } from "../utils/async.handler";
 
 export function userRouterFactory(): Router {
   const userRouter: Router = express.Router();
@@ -43,23 +44,17 @@ export function userRouterFactory(): Router {
   userRouter.post(
     "/auth/login",
     RequestBodyValidation(UserLoginDto),
-    async (req: Request, res: Response) => {
-      try {
-        const { email, userName } = req.body;
-        if (!email && !userName) {
-          throw new ValidationException(
-            HttpStatusCode.UNPROCESSABLE_ENTITY,
-            "At least one email or username is required."
-          );
-        }
-        const data = await authUserController.login(req.body);
-        console.log("This is Data: ", data);
-
-        return data;
-      } catch (error) {
-        throw error;
+    asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+      const { email, userName } = req.body;
+      if (!email && !userName) {
+        throw new ValidationException(
+          HttpStatusCode.UNPROCESSABLE_ENTITY,
+          "At least one email or username is required."
+        );
       }
-    }
+      const data = await authUserController.login(req.body);
+      return data;
+    })
   );
 
   return userRouter;

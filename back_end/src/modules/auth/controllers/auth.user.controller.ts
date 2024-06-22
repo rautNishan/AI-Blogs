@@ -8,11 +8,7 @@ export class AuthUserController {
   }
 
   async login(data: UserLoginDto) {
-    try {
-      const data1 = await this._authService.login(data);
-      return data1;
-    } catch (error) {
-      throw error;
-    }
+    const data1 = await this._authService.login(data);
+    return data1;
   }
 }
