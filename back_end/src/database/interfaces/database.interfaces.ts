@@ -11,7 +11,7 @@ export interface IBaseRepository<T> {
   update(data: DeepPartial<T>, options?: IUpdateOptions): Promise<T>;
   getById(id: number, options?: IFindByIdOptions<T>): Promise<T | null>;
   getOne(options?: IFindOneOption<T>): Promise<T | null>;
-  getAll(options?: IFindAllOptions<T>): Promise<T[]>;
+  getAll(options?: IFindAllOptions<T>): Promise<IPaginatedData<T>>;
   softDelete(entity: T, options?: IOnlyEntityManager): Promise<T>;
   restore(entity: T, options?: IOnlyEntityManager): Promise<T>;
   hardDelete(entity: T, options?: IOnlyEntityManager): Promise<T>;
@@ -55,4 +55,13 @@ export interface IRestore {
 
 export interface IOnlyEntityManager {
   entityManage?: EntityManager;
+}
+
+export interface IPaginatedData<T> {
+  _pagination: {
+    pageNumber: number;
+    limit: number;
+    totalData: number;
+  };
+  data: T[];
 }

@@ -1,8 +1,6 @@
 import { DataSource } from "typeorm";
 import databaseConfig from "../config/database.config";
 
-console.log("This is DirPath: ", __dirname);
-
 export const dataSource: DataSource = new DataSource({
   type: "postgres",
   host: databaseConfig.host,

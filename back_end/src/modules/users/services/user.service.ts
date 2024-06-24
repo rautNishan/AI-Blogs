@@ -10,12 +10,12 @@ import {
   IFindByIdOptions,
   IFindOneOption,
   IOnlyEntityManager,
+  IPaginatedData,
   IUpdateOptions,
 } from "../../../database/interfaces/database.interfaces";
 import * as bcrypt from "bcrypt";
 import { HttpException } from "../../../common/exceptions/http-exceptions";
 import { HttpStatusCode } from "../../../common/constants/http.status.code";
-import { USER_ROLE } from "../../../common/constants/roles.constant";
 
 export class UserService implements IUserService<UserEntity> {
   private _userRepository: UserRepository;
@@ -77,8 +77,10 @@ export class UserService implements IUserService<UserEntity> {
   }
 
   async getAll(
-    options?: IFindAllOptions<UserEntity> | undefined
-  ): Promise<UserEntity[]> {
+    options?: IFindAllOptions<UserEntity>
+  ): Promise<IPaginatedData<UserEntity>> {
+    //todo add metadata while returning data like how many data, which page number and how many data does database have
+
     return this._userRepository.getAll(options);
   }
 

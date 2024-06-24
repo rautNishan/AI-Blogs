@@ -8,8 +8,8 @@ export async function seedAdmin() {
   const existingAdmin = await userService.getAll({
     options: { where: { userName: "admin" } },
   });
-  if (existingAdmin.length > 0) {
-    for (let data of existingAdmin) {
+  if (existingAdmin.data.length > 0) {
+    for (let data of existingAdmin.data) {
       await userService.hardDelete(data);
     }
   }

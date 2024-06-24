@@ -11,7 +11,7 @@ export function ResponseInterCeptor(
     if (res.statusCode < 400) {
       const response: IResponse = {
         date: new Date(),
-        path: req.url,
+        path: req.baseUrl + req.path,
         message: "This is Yet to come",
         data: incomingData,
       };

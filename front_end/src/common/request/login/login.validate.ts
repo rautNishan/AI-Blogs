@@ -27,11 +27,5 @@ export function validationForm(
     returnObject.errorMessageForPassword = "Password field cannot be empty";
     returnObject.isEmpty = true;
   }
-  if (password && password?.length < 6) {
-    returnObject.errorMessageForPassword =
-      "Password Length must be greater than 6";
-    returnObject.isEmpty = true;
-  }
-
   return returnObject;
 }

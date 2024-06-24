@@ -1,6 +1,5 @@
 import { Express } from "express";
 import { IAppOptions } from "./common/interfaces/app.interfaces";
-import { DBConnection } from "./database/connection/connection";
 import { ICustomRouter } from "./common/interfaces/router.interface";
 export class AppInit {
   private app: Express;

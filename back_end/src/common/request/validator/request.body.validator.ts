@@ -9,8 +9,6 @@ export function RequestBodyValidation(
 ): (req: Request, res: Response, next: NextFunction) => void {
   return (req: Request, res: Response, next: NextFunction) => {
     const incomingObject: any = plainToInstance(type, req.body);
-    console.log("This is Incoming Data: ", incomingObject);
-
     const errorArray: any[] = [];
     validate(incomingObject)
       .then((error) => {

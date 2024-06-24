@@ -7,6 +7,8 @@ import { UserLoginDto } from "../modules/auth/dtos/user.login.dto";
 import { UserController } from "../modules/users/controllers/user.controller";
 import { UserCreateDto } from "../modules/users/dtos/user.create.dto";
 import { asyncHandler } from "../utils/async.handler";
+import { RequestQueryValidator } from "../common/request/validator/request.query.validator";
+import { RequestListQueryDto } from "../common/request/query/request.list.query.dto";
 
 export function userRouterFactory(): Router {
   const userRouter: Router = express.Router();
@@ -40,6 +42,15 @@ export function userRouterFactory(): Router {
         );
       }
       const data = await authUserController.login(req.body);
+      res.json(data);
+    })
+  );
+
+  userRouter.get(
+    "/list",
+    RequestQueryValidator(RequestListQueryDto),
+    asyncHandler(async (req: Request, res: Response) => {
+      const data = await userController.getAll(req.query);
       res.json(data);
     })
   );
