@@ -10,7 +10,6 @@ export default function Button(buttonProps: ButtonProps) {
       <button className={buttonProps.className} onClick={buttonProps.onClick}>
         {buttonProps.children}
       </button>
-      ;
     </>
   );
 }

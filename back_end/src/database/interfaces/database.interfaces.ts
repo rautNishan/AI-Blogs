@@ -1,7 +1,7 @@
 import {
   DeepPartial,
-  DeleteResult,
   EntityManager,
+  FindManyOptions,
   FindOneOptions,
 } from "typeorm";
 
@@ -9,15 +9,15 @@ import {
 export interface IBaseRepository<T> {
   create(createData: DeepPartial<T>, options?: ICreateOptions): Promise<T>;
   update(data: DeepPartial<T>, options?: IUpdateOptions): Promise<T>;
-  getById(id: number, options?: any): Promise<T | null>;
+  getById(id: number, options?: IFindByIdOptions<T>): Promise<T | null>;
   getOne(options?: IFindOneOption<T>): Promise<T | null>;
+  getAll(options?: IFindAllOptions<T>): Promise<IPaginatedData<T>>;
   softDelete(entity: T, options?: IOnlyEntityManager): Promise<T>;
   restore(entity: T, options?: IOnlyEntityManager): Promise<T>;
   hardDelete(entity: T, options?: IOnlyEntityManager): Promise<T>;
 }
 
 export interface ICreateOptions {
-  data?: any;
   listeners?: boolean;
   transaction?: boolean;
   entityManager: EntityManager;
@@ -39,6 +39,12 @@ export interface IFindOneOption<T> {
   withDeleted?: boolean;
 }
 
+export interface IFindAllOptions<T> {
+  entityManager?: EntityManager;
+  options?: FindManyOptions<T>;
+  withDeleted?: boolean;
+}
+
 export interface ISoftDelete {
   entityManage?: EntityManager;
 }
@@ -49,4 +55,13 @@ export interface IRestore {
 
 export interface IOnlyEntityManager {
   entityManage?: EntityManager;
+}
+
+export interface IPaginatedData<T> {
+  _pagination: {
+    pageNumber: number;
+    limit: number;
+    totalData: number;
+  };
+  data: T[];
 }

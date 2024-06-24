@@ -34,4 +34,16 @@ export class DBConnection {
     }
     return DBConnection.dataSource;
   }
+
+  public static async closeConnection() {
+    if (DBConnection.dataSource && DBConnection.dataSource.isInitialized) {
+      try {
+        await DBConnection.dataSource.destroy();
+        console.log("Database Connection Closed Successfully");
+      } catch (error) {
+        console.log("Something went wrong: ", error);
+        throw error;
+      }
+    }
+  }
 }

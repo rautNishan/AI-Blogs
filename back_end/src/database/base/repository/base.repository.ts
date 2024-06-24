@@ -2,14 +2,17 @@ import { DeepPartial, DeleteResult, FindOneOptions, Repository } from "typeorm";
 import {
   IBaseRepository,
   ICreateOptions,
+  IFindAllOptions,
   IFindByIdOptions,
   IFindOneOption,
   IOnlyEntityManager,
+  IPaginatedData,
   IRestore,
   ISoftDelete,
   IUpdateOptions,
 } from "../../interfaces/database.interfaces";
 import { DataBaseBaseEntity } from "../entity/base.entity";
+import { PAGINATION } from "../../../common/constants/pagination.constant";
 
 export class BaseRepository<T extends DataBaseBaseEntity>
   implements IBaseRepository<T>
@@ -82,6 +85,52 @@ export class BaseRepository<T extends DataBaseBaseEntity>
     }
 
     return this._repo.findOne(find);
+  }
+
+  async getAll(
+    options?: IFindAllOptions<T> | undefined
+  ): Promise<IPaginatedData<T>> {
+    const pageNumber = options?.options?.skip ?? PAGINATION.DEFAULT_PAGE_NUMBER;
+    const limit = options?.options?.take ?? PAGINATION.DEFAULT_LIMIT;
+
+    const findOptions: any = {
+      skip: (pageNumber - 1) * limit,
+      take: limit,
+    };
+
+    findOptions.where = options?.options?.where;
+
+    console.log("This is Find: ", findOptions);
+
+    if (options?.withDeleted) {
+      findOptions.withDeleted = true;
+    }
+
+    if (options?.entityManager) {
+      const count = await options.entityManager.count(this._repo.target);
+      const data = await options.entityManager.find(
+        this._repo.target,
+        findOptions
+      );
+      return {
+        _pagination: {
+          pageNumber: pageNumber,
+          limit: limit,
+          totalData: count,
+        },
+        data: data,
+      };
+    }
+    const data = await this._repo.find(findOptions);
+    const count = await this._repo.count();
+    return {
+      _pagination: {
+        pageNumber: pageNumber,
+        limit: limit,
+        totalData: count,
+      },
+      data: data,
+    };
   }
 
   async softDelete(entity: T, options?: IOnlyEntityManager): Promise<T> {

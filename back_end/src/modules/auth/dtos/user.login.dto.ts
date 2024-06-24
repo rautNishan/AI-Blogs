@@ -12,6 +12,5 @@ export class UserLoginDto implements ILoginIncomingData {
 
   @IsString()
   @IsNotEmpty()
-  @MinLength(6)
   password: string;
 }

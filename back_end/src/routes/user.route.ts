@@ -1,13 +1,14 @@
-import express, { NextFunction, Request, Response, Router } from "express";
+import express, { Request, Response, Router } from "express";
 import { HttpStatusCode } from "../common/constants/http.status.code";
-import { HttpException } from "../common/exceptions/http-exceptions";
-import { UserController } from "../modules/users/controllers/user.controller";
-import { RequestBodyValidation } from "../common/request/validator/request.body.validator";
-import { UserCreateDto } from "../modules/users/dtos/user.create.dto";
-import { UserLoginDto } from "../modules/auth/dtos/user.login.dto";
 import { ValidationException } from "../common/exceptions/validation-exceptions";
+import { RequestBodyValidation } from "../common/request/validator/request.body.validator";
 import { AuthUserController } from "../modules/auth/controllers/auth.user.controller";
+import { UserLoginDto } from "../modules/auth/dtos/user.login.dto";
+import { UserController } from "../modules/users/controllers/user.controller";
+import { UserCreateDto } from "../modules/users/dtos/user.create.dto";
 import { asyncHandler } from "../utils/async.handler";
+import { RequestQueryValidator } from "../common/request/validator/request.query.validator";
+import { RequestListQueryDto } from "../common/request/query/request.list.query.dto";
 
 export function userRouterFactory(): Router {
   const userRouter: Router = express.Router();
@@ -18,25 +19,13 @@ export function userRouterFactory(): Router {
     "/create",
     // UserProtectedGuard,
     RequestBodyValidation(UserCreateDto),
-    async (req: Request, res: Response) => {
+    asyncHandler(async (req: Request, res: Response) => {
       const incomingData = req.body;
       const createdData = await userController.create(incomingData);
       res.json(createdData);
-    }
+    })
   );
   //get user
-  userRouter.get("/", (req: Request, res: Response) => {
-    // res.send("This is User Get Router");
-    console.log("This is Get User");
-    res.send({
-      message: "This is Message",
-    });
-  });
-
-  userRouter.get("/err", (req: Request, res: Response) => {
-    console.log("This is in error route");
-    throw new HttpException(HttpStatusCode.INTERNAL_SERVER_ERROR, "Test error");
-  });
 
   //Auth
   const authUserController: AuthUserController = new AuthUserController();
@@ -44,7 +33,7 @@ export function userRouterFactory(): Router {
   userRouter.post(
     "/auth/login",
     RequestBodyValidation(UserLoginDto),
-    asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    asyncHandler(async (req: Request, res: Response) => {
       const { email, userName } = req.body;
       if (!email && !userName) {
         throw new ValidationException(
@@ -53,7 +42,16 @@ export function userRouterFactory(): Router {
         );
       }
       const data = await authUserController.login(req.body);
-      return data;
+      res.json(data);
+    })
+  );
+
+  userRouter.get(
+    "/list",
+    RequestQueryValidator(RequestListQueryDto),
+    asyncHandler(async (req: Request, res: Response) => {
+      const data = await userController.getAll(req.query);
+      res.json(data);
     })
   );
 

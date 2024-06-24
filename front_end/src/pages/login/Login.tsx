@@ -1,15 +1,67 @@
 import { Link } from "react-router-dom";
 import Forms from "../../components/common/forms/Forms";
 import LoginStyle from "./Login.module.css";
+import { validationForm } from "../../common/request/login/login.validate";
+import { CustomError } from "../../common/errors/custom.error";
+import { useState } from "react";
+import { LoginRequest } from "../../common/request/login/Login.request";
+
+export interface ILoginProps {
+  userName?: string | null;
+  email?: string | null;
+  password?: string | null;
+}
+
 export default function Login() {
-  //Login Logic
-  const login = () => {
-    console.log("THis is Login");
-  };
+  const [errorMessage, setErrorMessage] = useState("");
+  const [userNameEmptyError, setUserNameEmptyError] = useState("");
+  const [passwordEmptyError, setPasswordEmptyError] = useState("");
+
+  async function HandleLogin(data: ILoginProps) {
+    try {
+      const validatedData = validationForm(
+        data.userName,
+        data.email,
+        data.password
+      );
+
+      console.log("THis is Validate Data: ", validatedData);
+
+      if (validatedData.isEmpty) {
+        if (validatedData.errorMessageForUserNameOrEmail) {
+          setUserNameEmptyError(validatedData.errorMessageForUserNameOrEmail);
+        }
+        if (validatedData.errorMessageForPassword) {
+          setPasswordEmptyError(validatedData.errorMessageForPassword);
+        }
+      } else {
+        const finalDataToSend: ILoginProps = {
+          userName: data.userName === "" ? null : data.userName,
+          email: data.email === "" ? null : data.email,
+          password: data.password,
+        };
+        const loginData = await LoginRequest(finalDataToSend);
+        console.log("This is Login Data: ", loginData);
+      }
+    } catch (error) {
+      if (error instanceof CustomError) {
+        setErrorMessage(error._error.message);
+      }
+    }
+  }
 
   return (
     <div className={LoginStyle.login}>
-      <Forms formType="Login" fun={login} register={false} />
+      <Forms
+        formType="Login"
+        fun={HandleLogin}
+        errors={errorMessage}
+        loginErrorMessages={{
+          errorMessageForUserNameOrEmail: userNameEmptyError,
+          errorMessageForPassword: passwordEmptyError,
+        }}
+        register={false}
+      />
       <div className={LoginStyle.newToApp}>
         <p>
           New to the site? <Link to="/register">Register</Link>

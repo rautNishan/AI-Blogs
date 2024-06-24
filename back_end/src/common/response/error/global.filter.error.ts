@@ -10,8 +10,6 @@ export function GlobalExceptionFilter(
   res: Response,
   next: NextFunction
 ) {
-  console.log("This is Global Error Filter");
-
   const defaultStatusCode = 500;
   const defaultMessage: any = "Internal Server Error";
 
@@ -32,7 +30,7 @@ export function GlobalExceptionFilter(
 
   const response: IExceptionResponse = {
     date: new Date(),
-    path: req.url,
+    path: req.baseUrl + req.path,
     statusCode,
     message,
   };
