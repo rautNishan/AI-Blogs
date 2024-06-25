@@ -34,9 +34,17 @@ export class UserController {
 
   //Accept pagination query
   async getAll(options?: RequestListQueryDto) {
+    //To do
+    if (options?.withDeleted) {
+      if (options.withDeleted === "true") {
+        options.withDeleted = true;
+      } else {
+        options.withDeleted = false;
+      }
+    }
     return await this._userService.getAll({
-      withDeleted: options?.withDeleted,
       options: {
+        // withDeleted: options?.withDeleted,
         skip: Number(options?.page),
         take: Number(options?.limit),
       },

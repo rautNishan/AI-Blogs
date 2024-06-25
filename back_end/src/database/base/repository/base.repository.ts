@@ -90,7 +90,10 @@ export class BaseRepository<T extends DataBaseBaseEntity>
   async getAll(
     options?: IFindAllOptions<T> | undefined
   ): Promise<IPaginatedData<T>> {
+    //Page Number
     const pageNumber = options?.options?.skip ?? PAGINATION.DEFAULT_PAGE_NUMBER;
+
+    //Limit
     const limit = options?.options?.take ?? PAGINATION.DEFAULT_LIMIT;
 
     const findOptions: any = {

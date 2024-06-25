@@ -18,5 +18,5 @@ export class RequestListQueryDto {
 
   @IsBooleanString()
   @IsOptional()
-  withDeleted?: boolean;
+  withDeleted?: string | boolean;
 }
