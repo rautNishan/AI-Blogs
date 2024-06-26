@@ -19,6 +19,7 @@ export function RequestQueryValidator(type: any) {
           errors
         );
       }
+      req.query = incomingQuery;
       next();
     } catch (error) {
       next(error);

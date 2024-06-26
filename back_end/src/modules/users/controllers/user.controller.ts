@@ -1,12 +1,10 @@
 import { DataSource } from "typeorm";
-import { UserCreateDto } from "../dtos/user.create.dto";
-import { UserService } from "../services/user.service";
+import { USER_ROLE } from "../../../common/constants/roles.constant";
+import { RequestListQueryDto } from "../../../common/request/query/request.list.query.dto";
 import { DBConnection } from "../../../database/connection/connection";
 import { ICreateOptions } from "../../../database/interfaces/database.interfaces";
-import { USER_ROLE } from "../../../common/constants/roles.constant";
-import { UserEntity } from "../entity/user.entity";
-import { IPaginatedRequest } from "../../../common/request/interfaces/request.paginated.interface";
-import { RequestListQueryDto } from "../../../common/request/query/request.list.query.dto";
+import { UserCreateDto } from "../dtos/user.create.dto";
+import { UserService } from "../services/user.service";
 
 export class UserController {
   private _userService: UserService;
@@ -34,20 +32,13 @@ export class UserController {
 
   //Accept pagination query
   async getAll(options?: RequestListQueryDto) {
-    //To do
-    if (options?.withDeleted) {
-      if (options.withDeleted === "true") {
-        options.withDeleted = true;
-      } else {
-        options.withDeleted = false;
-      }
-    }
     return await this._userService.getAll({
       options: {
         // withDeleted: options?.withDeleted,
-        skip: Number(options?.page),
-        take: Number(options?.limit),
+        skip: options?.page,
+        take: options?.limit,
       },
+      withDeleted: options?.withDeleted,
     });
   }
 

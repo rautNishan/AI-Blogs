@@ -90,6 +90,8 @@ export class BaseRepository<T extends DataBaseBaseEntity>
   async getAll(
     options?: IFindAllOptions<T> | undefined
   ): Promise<IPaginatedData<T>> {
+    console.log("This is Options: ", options);
+
     //Page Number
     const pageNumber = options?.options?.skip ?? PAGINATION.DEFAULT_PAGE_NUMBER;
 
@@ -101,11 +103,7 @@ export class BaseRepository<T extends DataBaseBaseEntity>
       take: limit,
     };
 
-    findOptions.where = options?.options?.where;
-
-    console.log("This is Find: ", findOptions);
-
-    if (options?.withDeleted) {
+    if (options?.withDeleted && options.withDeleted) {
       findOptions.withDeleted = true;
     }
 

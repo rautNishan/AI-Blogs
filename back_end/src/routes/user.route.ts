@@ -50,7 +50,6 @@ export function userRouterFactory(): Router {
     "/list",
     RequestQueryValidator(RequestListQueryDto),
     asyncHandler(async (req: Request, res: Response) => {
-      console.log('This is Incoming Query: ',req.query);
       const data = await userController.getAll(req.query);
       res.json(data);
     })

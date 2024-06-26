@@ -79,8 +79,6 @@ export class UserService implements IUserService<UserEntity> {
   async getAll(
     options?: IFindAllOptions<UserEntity>
   ): Promise<IPaginatedData<UserEntity>> {
-    //todo add metadata while returning data like how many data, which page number and how many data does database have
-
     return this._userRepository.getAll(options);
   }
 
