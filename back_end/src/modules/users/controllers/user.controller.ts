@@ -1,12 +1,15 @@
 import { DataSource } from "typeorm";
+import { USER_ROLE } from "../../../common/constants/roles.constant";
+import { RequestListQueryDto } from "../../../common/request/query/request.list.query.dto";
+import { DBConnection } from "../../../database/connection/connection";
+import {
+  ICreateOptions,
+  IFindByIdOptions,
+  IFindOneOption,
+} from "../../../database/interfaces/database.interfaces";
 import { UserCreateDto } from "../dtos/user.create.dto";
 import { UserService } from "../services/user.service";
-import { DBConnection } from "../../../database/connection/connection";
-import { ICreateOptions } from "../../../database/interfaces/database.interfaces";
-import { USER_ROLE } from "../../../common/constants/roles.constant";
 import { UserEntity } from "../entity/user.entity";
-import { IPaginatedRequest } from "../../../common/request/interfaces/request.paginated.interface";
-import { RequestListQueryDto } from "../../../common/request/query/request.list.query.dto";
 
 export class UserController {
   private _userService: UserService;
@@ -35,14 +38,17 @@ export class UserController {
   //Accept pagination query
   async getAll(options?: RequestListQueryDto) {
     return await this._userService.getAll({
-      withDeleted: options?.withDeleted,
       options: {
-        skip: Number(options?.page),
-        take: Number(options?.limit),
+        // withDeleted: options?.withDeleted,
+        skip: options?.page,
+        take: options?.limit,
       },
+      withDeleted: options?.withDeleted,
     });
   }
 
   //Accept id
-  async getById() {}
+  async getById(id: number, options?: IFindByIdOptions<UserEntity>) {
+    return await this._userService.getById(id, options);
+  }
 }

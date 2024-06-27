@@ -1,22 +1,19 @@
-import {
-  IsBoolean,
-  IsBooleanString,
-  IsNumber,
-  IsOptional,
-  IsString,
-} from "class-validator";
-import { EntityManager } from "typeorm";
+import { Transform } from "class-transformer";
+import { IsBoolean, IsNumber, IsOptional } from "class-validator";
 
 export class RequestListQueryDto {
-  @IsString()
+  @IsNumber()
   @IsOptional()
+  @Transform(({ value }) => Number(value))
   limit?: number;
 
-  @IsString()
+  @IsNumber()
   @IsOptional()
+  @Transform(({ value }) => Number(value))
   page?: number;
 
-  @IsBooleanString()
+  @IsBoolean()
   @IsOptional()
+  @Transform(({ value }) => (value === "true" ? true : false))
   withDeleted?: boolean;
 }
