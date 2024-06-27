@@ -19,6 +19,7 @@ import {
   ILoginIncomingData,
 } from "../interfaces/auth.interfaces";
 import requestConfig from "../../../common/request/config/request.config";
+import { IAuthenticatedUser } from "../../../common/request/interfaces/request.paginated.interface";
 
 export class AuthService implements IAuth {
   private static _instance: AuthService;

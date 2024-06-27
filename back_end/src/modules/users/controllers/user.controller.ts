@@ -2,9 +2,14 @@ import { DataSource } from "typeorm";
 import { USER_ROLE } from "../../../common/constants/roles.constant";
 import { RequestListQueryDto } from "../../../common/request/query/request.list.query.dto";
 import { DBConnection } from "../../../database/connection/connection";
-import { ICreateOptions } from "../../../database/interfaces/database.interfaces";
+import {
+  ICreateOptions,
+  IFindByIdOptions,
+  IFindOneOption,
+} from "../../../database/interfaces/database.interfaces";
 import { UserCreateDto } from "../dtos/user.create.dto";
 import { UserService } from "../services/user.service";
+import { UserEntity } from "../entity/user.entity";
 
 export class UserController {
   private _userService: UserService;
@@ -43,5 +48,7 @@ export class UserController {
   }
 
   //Accept id
-  async getById() {}
+  async getById(id: number, options?: IFindByIdOptions<UserEntity>) {
+    return await this._userService.getById(id, options);
+  }
 }

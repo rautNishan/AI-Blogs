@@ -2,6 +2,7 @@ import { Column, Entity } from "typeorm";
 import { USER_ROLE } from "../../../common/constants/roles.constant";
 import { DataBaseBaseEntity } from "../../../database/base/entity/base.entity";
 import { IUser } from "../interfaces/user.interface";
+import { Exclude } from "class-transformer";
 
 export const USER_TABLE_NAME = "users";
 
