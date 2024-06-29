@@ -30,7 +30,7 @@ export default function Forms(formType: IFromProps) {
 
   return (
     <div className={Styles.form}>
-      {formType.errors}
+      <div className={Styles.errorMessage}>{formType.errors}</div>
       <h2>{formType.formType}</h2>
       {formType.register && (
         <>
@@ -56,16 +56,13 @@ export default function Forms(formType: IFromProps) {
           }
         }}
         placeholder={
-          formType.loginErrorMessages?.errorMessageForUserNameOrEmail ||
-          "User Name or Email"
+          formType.loginErrorMessages?.errorMessageForUserNameOrEmail || ""
         }
       />
       <span>Password:</span>
       <input
         type="password"
-        placeholder={
-          formType.loginErrorMessages?.errorMessageForPassword || "Password"
-        }
+        placeholder={formType.loginErrorMessages?.errorMessageForPassword || ""}
         onChange={(e) => setPassword(e.target.value)}
       />
       <Button className={ButtonStyles.formsButton} onClick={handleClick}>

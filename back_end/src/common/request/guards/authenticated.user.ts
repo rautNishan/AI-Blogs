@@ -5,7 +5,7 @@ import { USER_ROLE } from "../../constants/roles.constant";
 import { AuthService } from "../../../modules/auth/services/auth.service";
 import requestConfig from "../config/request.config";
 import { Jwt, JwtPayload } from "jsonwebtoken";
-import { META_INFO } from "../constant/request.constant";
+import { REQUEST_META } from "../constant/request.constant";
 
 export async function UserProtectedGuard(
   req: Request,
@@ -49,7 +49,7 @@ export async function UserProtectedGuard(
         "User not permitted"
       );
     }
-    req[META_INFO.PROTECTED_USER] = decodedToken["id"];
+    req[REQUEST_META.PROTECTED_USER] = decodedToken["id"];
     next();
   } catch (error) {
     next(error);

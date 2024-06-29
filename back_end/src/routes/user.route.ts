@@ -1,16 +1,17 @@
 import express, { Request, Response, Router } from "express";
 import { HttpStatusCode } from "../common/constants/http.status.code";
 import { ValidationException } from "../common/exceptions/validation-exceptions";
+import { REQUEST_META } from "../common/request/constant/request.constant";
 import { UserProtectedGuard } from "../common/request/guards/authenticated.user";
 import { RequestListQueryDto } from "../common/request/query/request.list.query.dto";
 import { RequestBodyValidation } from "../common/request/validator/request.body.validator";
 import { RequestQueryValidator } from "../common/request/validator/request.query.validator";
+import { RESPONSE_META } from "../common/response/constants/response.constant";
 import { AuthUserController } from "../modules/auth/controllers/auth.user.controller";
 import { UserLoginDto } from "../modules/auth/dtos/user.login.dto";
 import { UserController } from "../modules/users/controllers/user.controller";
 import { UserCreateDto } from "../modules/users/dtos/user.create.dto";
 import { asyncHandler } from "../utils/async.handler";
-import { META_INFO } from "../common/request/constant/request.constant";
 
 export function userRouterFactory(): Router {
   const userRouter: Router = express.Router();
@@ -40,7 +41,7 @@ export function userRouterFactory(): Router {
     "/auth-me",
     UserProtectedGuard,
     asyncHandler(async (req: Request, res: Response) => {
-      const protectedUserId = Number(req[META_INFO.PROTECTED_USER]);
+      const protectedUserId = Number(req[REQUEST_META.PROTECTED_USER]);
       const data = await userController.getById(protectedUserId);
       res.json(data);
     })
@@ -63,6 +64,7 @@ export function userRouterFactory(): Router {
     RequestQueryValidator(RequestListQueryDto),
     asyncHandler(async (req: Request, res: Response) => {
       const data = await userController.getAll(req.query);
+      res[RESPONSE_META.RESPONSE_MESSAGE] = "Get List Successfully";
       res.json(data);
     })
   );
@@ -70,8 +72,12 @@ export function userRouterFactory(): Router {
   userRouter.get(
     "/info/:id",
     asyncHandler(async (req: Request, res: Response) => {
-      console.log("This is Request: ");
+      const { id } = req.params;
+      console.log("This is ID: ", id);
+      const data = await userController.getById(Number(id));
+      res.json(data);
     })
   );
+
   return userRouter;
 }

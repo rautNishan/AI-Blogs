@@ -1,0 +1,4 @@
+export enum RESPONSE_META {
+    RESPONSE_MESSAGE = "RESPONSE_MESSAGE",
+  }
+  

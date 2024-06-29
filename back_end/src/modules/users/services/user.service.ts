@@ -67,12 +67,14 @@ export class UserService implements IUserService<UserEntity> {
     id: number,
     options?: IFindByIdOptions<UserEntity>
   ): Promise<UserEntity | null> {
-    return this._userRepository.getById(id, options);
+    return await this._userRepository.getById(id, options);
   }
 
   async getOne(
     options?: IFindOneOption<UserEntity> | undefined
   ): Promise<UserEntity | null> {
+    console.log("This is Options: ", options);
+
     return await this._userRepository.getOne(options);
   }
 

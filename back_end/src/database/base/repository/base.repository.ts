@@ -55,8 +55,11 @@ export class BaseRepository<T extends DataBaseBaseEntity>
 
   async getById(id: number, options?: IFindByIdOptions<T>): Promise<T | null> {
     const find: any = {
+      ...options?.options,
       where: { id },
     };
+
+    console.log("This is Find: ", find);
 
     if (options?.withDeleted) {
       find.withDeleted = true;
@@ -66,7 +69,7 @@ export class BaseRepository<T extends DataBaseBaseEntity>
       return await options.entityManager.findOne(this._repo.target, find);
     }
 
-    return this._repo.findOne(find);
+    return await this._repo.findOne(find);
   }
 
   async getOne(options?: IFindOneOption<T>): Promise<T | null> {
@@ -90,17 +93,19 @@ export class BaseRepository<T extends DataBaseBaseEntity>
   async getAll(
     options?: IFindAllOptions<T> | undefined
   ): Promise<IPaginatedData<T>> {
-    console.log("This is Options: ", options);
-
     //Page Number
     const pageNumber = options?.options?.skip ?? PAGINATION.DEFAULT_PAGE_NUMBER;
 
     //Limit
     const limit = options?.options?.take ?? PAGINATION.DEFAULT_LIMIT;
 
+    delete options?.options?.take;
+    delete options?.options?.skip;
+
     const findOptions: any = {
       skip: (pageNumber - 1) * limit,
       take: limit,
+      ...options?.options,
     };
 
     if (options?.withDeleted && options.withDeleted) {
@@ -122,6 +127,8 @@ export class BaseRepository<T extends DataBaseBaseEntity>
         data: data,
       };
     }
+    console.log("This is Find Options: ", findOptions);
+
     const data = await this._repo.find(findOptions);
     const count = await this._repo.count();
     return {

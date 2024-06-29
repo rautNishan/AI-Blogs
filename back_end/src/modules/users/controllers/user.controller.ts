@@ -5,11 +5,10 @@ import { DBConnection } from "../../../database/connection/connection";
 import {
   ICreateOptions,
   IFindByIdOptions,
-  IFindOneOption,
 } from "../../../database/interfaces/database.interfaces";
 import { UserCreateDto } from "../dtos/user.create.dto";
-import { UserService } from "../services/user.service";
 import { UserEntity } from "../entity/user.entity";
+import { UserService } from "../services/user.service";
 
 export class UserController {
   private _userService: UserService;
@@ -37,18 +36,23 @@ export class UserController {
 
   //Accept pagination query
   async getAll(options?: RequestListQueryDto) {
-    return await this._userService.getAll({
+    const data = await this._userService.getAll({
       options: {
-        // withDeleted: options?.withDeleted,
         skip: options?.page,
         take: options?.limit,
+        select: ["id", "email", "userName"],
       },
       withDeleted: options?.withDeleted,
     });
+    return data;
   }
 
   //Accept id
   async getById(id: number, options?: IFindByIdOptions<UserEntity>) {
-    return await this._userService.getById(id, options);
+    return await this._userService.getById(id, {
+      options: {
+        select: ["id", "email", "userName"],
+      },
+    });
   }
 }
