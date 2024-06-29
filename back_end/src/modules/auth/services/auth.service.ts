@@ -89,6 +89,8 @@ export class AuthService implements IAuth {
         expiresIn: "1d",
       });
     } catch (error) {
+      console.log("This is Error: ", error);
+
       throw error;
     }
   }
@@ -114,6 +116,9 @@ export class AuthService implements IAuth {
     incomingPassword: string,
     dbPassword: string
   ): Promise<boolean> {
+    console.log("This is Incoming Password: ", incomingPassword);
+    console.log("This is DBPasswod: ", dbPassword);
+
     const isPasswordCorrect: boolean = await bcrypt.compare(
       incomingPassword,
       dbPassword

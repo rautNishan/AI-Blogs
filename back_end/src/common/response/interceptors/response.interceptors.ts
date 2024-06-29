@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { RESPONSE_META } from "../constants/response.constant";
 import { IResponse } from "../interfaces/response.interface";
 
 export function ResponseInterCeptor(
@@ -12,7 +13,7 @@ export function ResponseInterCeptor(
       const response: IResponse = {
         date: new Date(),
         path: req.baseUrl + req.path,
-        message: "This is Yet to come",
+        message: res[RESPONSE_META.RESPONSE_MESSAGE],
         data: incomingData,
       };
       return originalResponse.call(this, response);

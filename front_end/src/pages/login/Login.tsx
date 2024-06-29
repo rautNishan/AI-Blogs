@@ -12,6 +12,13 @@ export interface ILoginProps {
   password?: string | null;
 }
 
+export interface ILoginResponse {
+  date: string;
+  message: string;
+  path: string;
+  data: string;
+}
+
 export default function Login() {
   const [errorMessage, setErrorMessage] = useState("");
   const [userNameEmptyError, setUserNameEmptyError] = useState("");
@@ -24,8 +31,6 @@ export default function Login() {
         data.email,
         data.password
       );
-
-      console.log("THis is Validate Data: ", validatedData);
 
       if (validatedData.isEmpty) {
         if (validatedData.errorMessageForUserNameOrEmail) {
@@ -40,8 +45,8 @@ export default function Login() {
           email: data.email === "" ? null : data.email,
           password: data.password,
         };
-        const loginData = await LoginRequest(finalDataToSend);
-        console.log("This is Login Data: ", loginData);
+        const loginData: ILoginResponse = await LoginRequest(finalDataToSend);
+        localStorage.setItem("token", loginData.data);
       }
     } catch (error) {
       if (error instanceof CustomError) {

@@ -34,5 +34,6 @@ export function GlobalExceptionFilter(
     statusCode,
     message,
   };
+  console.log("This is Error: ", err);
   return res.status(statusCode).send(response);
 }

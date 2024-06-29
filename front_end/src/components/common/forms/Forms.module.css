@@ -31,3 +31,12 @@
   border-radius: 5px;
   border: 1px solid black;
 }
+
+.errorMessage {
+  color: rgb(255, 93, 93);
+  font-size: large;
+  text-align: center;
+  font-weight: bold;
+  padding-top: 15px;
+  /* border: 2px solid black; */
+}
