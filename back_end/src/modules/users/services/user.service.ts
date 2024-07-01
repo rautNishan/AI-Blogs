@@ -1,6 +1,6 @@
 import { DeepPartial, Repository } from "typeorm";
 import { DBConnection } from "../../../database/connection/connection";
-import { UserEntity } from "../entity/user.entity";
+import { UserEntity } from "../entities/user.entity";
 import { UserRepository } from "../repository/user.repository";
 import { UserCreateDto } from "../dtos/user.create.dto";
 import { IUserService } from "../interfaces/user.interface";
@@ -73,8 +73,6 @@ export class UserService implements IUserService<UserEntity> {
   async getOne(
     options?: IFindOneOption<UserEntity> | undefined
   ): Promise<UserEntity | null> {
-    console.log("This is Options: ", options);
-
     return await this._userRepository.getOne(options);
   }
 

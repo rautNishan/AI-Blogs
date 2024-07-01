@@ -22,6 +22,7 @@ export function RequestBodyValidation(
           );
         } else {
           //Every thing is alright
+          req.body = incomingObject;
           next();
         }
       })

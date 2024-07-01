@@ -23,6 +23,15 @@ export async function UserProtectedGuard(
       throw new HttpException(HttpStatusCode.UNAUTHORIZED, "Not Authenticated");
     }
 
+    const isBearer = incomingToken[0];
+
+    if (isBearer !== "Bearer") {
+      throw new HttpException(
+        HttpStatusCode.FORBIDDEN,
+        "Only Bearer Token is Accepted"
+      );
+    }
+
     const decodedToken: Jwt | JwtPayload | string =
       await _authService.decodeToken(
         incomingToken[1],

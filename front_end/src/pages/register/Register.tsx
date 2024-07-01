@@ -5,7 +5,7 @@ export default function Register() {
   const register = () => {
     console.log("This is Register");
   };
-
+  
   return (
     <div className="">
       <Forms formType="Register" register={true} fun={register} />

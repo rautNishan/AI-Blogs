@@ -1,16 +1,16 @@
 import { plainToInstance } from "class-transformer";
-import { ValidationError, validate } from "class-validator";
-import { NextFunction, Request, Response } from "express";
+import { Validate, validate } from "class-validator";
+import { Request, Response, NextFunction } from "express";
 import { ValidationException } from "../../exceptions/validation-exceptions";
 import { HttpStatusCode } from "../../constants/http.status.code";
 
-export function RequestQueryValidator(
+export function RequestParamValidator(
   type: any
 ): (req: Request, res: Response, next?: NextFunction) => Promise<void> {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const incomingQuery: any = plainToInstance(type, req.query);
-      const validation = await validate(incomingQuery);
+      const incomingParam: any = await plainToInstance(type, req.params);
+      const validation = await validate(incomingParam);
       const errors: any = [];
       if (validation.length > 0) {
         for (let error of validation) {
@@ -21,7 +21,7 @@ export function RequestQueryValidator(
           errors
         );
       }
-      req.query = incomingQuery;
+      req.params = incomingParam;
       next();
     } catch (error) {
       next(error);

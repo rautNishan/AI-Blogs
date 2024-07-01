@@ -1,6 +1,7 @@
 export interface IResponse<T = Record<string, any>> {
   date: Date;
   path: string;
+  status: number;
   message: string;
   data: T;
 }

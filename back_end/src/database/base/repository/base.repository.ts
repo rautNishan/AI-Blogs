@@ -40,7 +40,7 @@ export class BaseRepository<T extends DataBaseBaseEntity>
       return await options.entityManager.save(entityInstance);
     }
     entityInstance = this._repo.create(createData);
-    return this._repo.save(entityInstance);
+    return await this._repo.save(entityInstance);
   }
 
   async update(
@@ -58,8 +58,6 @@ export class BaseRepository<T extends DataBaseBaseEntity>
       ...options?.options,
       where: { id },
     };
-
-    console.log("This is Find: ", find);
 
     if (options?.withDeleted) {
       find.withDeleted = true;
@@ -113,7 +111,10 @@ export class BaseRepository<T extends DataBaseBaseEntity>
     }
 
     if (options?.entityManager) {
-      const count = await options.entityManager.count(this._repo.target);
+      const count = await options.entityManager.count(
+        this._repo.target,
+        findOptions
+      );
       const data = await options.entityManager.find(
         this._repo.target,
         findOptions
@@ -127,10 +128,9 @@ export class BaseRepository<T extends DataBaseBaseEntity>
         data: data,
       };
     }
-    console.log("This is Find Options: ", findOptions);
 
     const data = await this._repo.find(findOptions);
-    const count = await this._repo.count();
+    const count = await this._repo.count(findOptions);
     return {
       _pagination: {
         pageNumber: pageNumber,
