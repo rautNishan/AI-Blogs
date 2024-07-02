@@ -11,7 +11,7 @@ import { Repository } from "typeorm";
 import { HttpStatusCode } from "../../../common/constants/http.status.code";
 import { HttpException } from "../../../common/exceptions/http-exceptions";
 import { DBConnection } from "../../../database/connection/connection";
-import { UserEntity } from "../../users/entity/user.entity";
+import { UserEntity } from "../../users/entities/user.entity";
 import { UserRepository } from "../../users/repository/user.repository";
 import {
   IAuth,
@@ -116,9 +116,6 @@ export class AuthService implements IAuth {
     incomingPassword: string,
     dbPassword: string
   ): Promise<boolean> {
-    console.log("This is Incoming Password: ", incomingPassword);
-    console.log("This is DBPasswod: ", dbPassword);
-
     const isPasswordCorrect: boolean = await bcrypt.compare(
       incomingPassword,
       dbPassword

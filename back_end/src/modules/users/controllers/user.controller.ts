@@ -7,7 +7,7 @@ import {
   IFindByIdOptions,
 } from "../../../database/interfaces/database.interfaces";
 import { UserCreateDto } from "../dtos/user.create.dto";
-import { UserEntity } from "../entity/user.entity";
+import { UserEntity } from "../entities/user.entity";
 import { UserService } from "../services/user.service";
 
 export class UserController {

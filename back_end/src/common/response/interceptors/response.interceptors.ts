@@ -11,6 +11,7 @@ export function ResponseInterCeptor(
   res.json = function (incomingData: Record<string, any>) {
     if (res.statusCode < 400) {
       const response: IResponse = {
+        status: res.statusCode,
         date: new Date(),
         path: req.baseUrl + req.path,
         message: res[RESPONSE_META.RESPONSE_MESSAGE],

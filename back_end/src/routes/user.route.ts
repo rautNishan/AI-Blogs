@@ -12,6 +12,8 @@ import { UserLoginDto } from "../modules/auth/dtos/user.login.dto";
 import { UserController } from "../modules/users/controllers/user.controller";
 import { UserCreateDto } from "../modules/users/dtos/user.create.dto";
 import { asyncHandler } from "../utils/async.handler";
+import { BlogUserController } from "../modules/blogs/controllers/blog.user.controller";
+import { BlogCreateDto } from "../modules/blogs/dtos/blog.create.dto";
 
 export function userRouterFactory(): Router {
   const userRouter: Router = express.Router();
@@ -75,6 +77,20 @@ export function userRouterFactory(): Router {
       const { id } = req.params;
       console.log("This is ID: ", id);
       const data = await userController.getById(Number(id));
+      res.json(data);
+    })
+  );
+
+  //Blogs
+  const blogController = new BlogUserController();
+  userRouter.post(
+    "/blog/create",
+    UserProtectedGuard,
+    RequestBodyValidation(BlogCreateDto),
+    asyncHandler(async (req, res) => {
+      const incomingData = req.body; //Since it is Valudated Request Body
+      const data = await blogController.create(incomingData);
+      res[RESPONSE_META.RESPONSE_MESSAGE] = "Blog Created Successfully";
       res.json(data);
     })
   );
