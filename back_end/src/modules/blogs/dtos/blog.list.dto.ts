@@ -7,4 +7,6 @@ export class BlogListDto extends RequestListQueryDto {
   @IsNumber()
   @Transform(({ value }) => Number(value))
   userId?: number;
+
+  
 }
