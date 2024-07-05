@@ -12,11 +12,12 @@ import { RESPONSE_META } from "../common/response/constants/response.constant";
 import { RequestQueryValidator } from "../common/request/validator/request.query.validator";
 import { RequestListQueryDto } from "../common/request/query/request.list.query.dto";
 import { BlogListDto } from "../modules/blogs/dtos/blog.list.dto";
+import { UserAdminController } from "../modules/users/controllers/user.admin.controller";
 
 export function adminRouterFactory(): Router {
   const adminRouter: Router = express.Router();
 
-  const userController = new UserController();
+  const userAdminController = new UserAdminController();
 
   //User Routes
   adminRouter.post(
@@ -24,7 +25,7 @@ export function adminRouterFactory(): Router {
     UserProtectedGuard,
     RequestBodyValidation(UserCreateDto),
     asyncHandler(async (req: Request, res: Response) => {
-      return await userController.create(req.body);
+      return await userAdminController.create(req.body);
     })
   );
 

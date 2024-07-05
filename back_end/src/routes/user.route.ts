@@ -89,6 +89,7 @@ export function userRouterFactory(): Router {
     RequestBodyValidation(BlogCreateDto),
     asyncHandler(async (req, res) => {
       const incomingData = req.body; //Since it is Valudated Request Body
+      console.log("This is Incoming Data: ", incomingData);
       const data = await blogController.create(incomingData);
       res[RESPONSE_META.RESPONSE_MESSAGE] = "Blog Created Successfully";
       res.json(data);

@@ -9,6 +9,7 @@ import {
 import { UserCreateDto } from "../dtos/user.create.dto";
 import { UserEntity } from "../entities/user.entity";
 import { UserService } from "../services/user.service";
+import { UserIdSerialization } from "../serializations/user.id.serialization";
 
 export class UserController {
   private _userService: UserService;
@@ -25,7 +26,8 @@ export class UserController {
       data.role = USER_ROLE.USER;
       const createdData = await this._userService.create(data, options);
       await queryRunner.commitTransaction();
-      return createdData;
+      const returnData = new UserIdSerialization(createdData.id);
+      return returnData;
     } catch (error) {
       await queryRunner.rollbackTransaction();
       throw error;

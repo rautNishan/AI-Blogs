@@ -22,7 +22,6 @@ export function containsKey(
     return false;
   }
 
-  //Check if the keys are valid or not
   for (let i = 0; i < incomingKeys.length; i++) {
     for (let j = 0; j < actualKeys.length; j++) {
       if (incomingKeys[i] === actualKeys[j]) {
@@ -35,6 +34,7 @@ export function containsKey(
     }
   }
 
+  //Check if the keys are valid or not
   for (let i = 0; i < hasAMatch.length; i++) {
     if (hasAMatch[i] === false) {
       return false;

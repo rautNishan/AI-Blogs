@@ -3,6 +3,7 @@ import jwt, {
   JwtPayload,
   Secret,
   SignOptions,
+  TokenExpiredError,
   VerifyOptions,
 } from "jsonwebtoken";
 
@@ -108,8 +109,15 @@ export class AuthService implements IAuth {
     secretKey: Secret,
     options?: VerifyOptions
   ): Promise<Jwt | JwtPayload | string> {
-    const type = jwt.verify(token, secretKey, options);
-    return type;
+    try {
+      const type = jwt.verify(token, secretKey, options);
+      return type;
+    } catch (error) {
+      if (error instanceof TokenExpiredError) {
+        throw new HttpException(HttpStatusCode.UNAUTHORIZED, "Not Authorized");
+      }
+      throw error;
+    }
   }
 
   async verifyPassword(
