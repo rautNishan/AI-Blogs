@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Forms from "../../components/common/forms/Forms";
 import LoginStyle from "./Login.module.css";
 import { validationForm } from "../../common/request/login/login.validate";
 import { CustomError } from "../../common/errors/custom.error";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { LoginRequest } from "../../common/request/login/Login.request";
+import { AuthContext } from "../../common/context/auth.context";
 
 export interface ILoginProps {
   userName?: string | null;
@@ -20,9 +21,11 @@ export interface ILoginResponse {
 }
 
 export default function Login() {
+  const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
   const [userNameEmptyError, setUserNameEmptyError] = useState("");
   const [passwordEmptyError, setPasswordEmptyError] = useState("");
+  const { setAuthenticated } = useContext(AuthContext);
 
   async function HandleLogin(data: ILoginProps) {
     try {
@@ -47,6 +50,8 @@ export default function Login() {
         };
         const loginData: ILoginResponse = await LoginRequest(finalDataToSend);
         localStorage.setItem("token", loginData.data);
+        setAuthenticated(true);
+        navigate("/profile");
       }
     } catch (error) {
       if (error instanceof CustomError) {
