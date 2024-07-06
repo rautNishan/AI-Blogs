@@ -23,6 +23,12 @@ export async function UserProtectedGuard(
       throw new HttpException(HttpStatusCode.UNAUTHORIZED, "Not Authenticated");
     }
 
+    //How Front will be requestion
+    if (incomingToken.length > 0 && incomingToken[1] === "null") {
+      console.log("Yes it is Null");
+      throw new HttpException(HttpStatusCode.UNAUTHORIZED, "Not Authenticated");
+    }
+
     const isBearer = incomingToken[0];
 
     if (isBearer !== "Bearer") {
