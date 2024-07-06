@@ -34,6 +34,8 @@ export function Profile() {
             Authorization: `Bearer ${token}`,
           },
         });
+        console.log("This is Response: ", response.data.data);
+
         setUserInfo(response.data.data);
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -48,7 +50,7 @@ export function Profile() {
     };
 
     fetchUserProfile();
-  }, [token]);
+  }, [token, setAuthenticated, navigate]);
 
   return (
     <div>
