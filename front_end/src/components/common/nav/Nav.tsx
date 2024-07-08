@@ -4,7 +4,6 @@ import { AuthContext } from "../../../common/context/auth.context";
 import styles from "./Nav.module.css";
 export default function NavBar() {
   const { authenticated } = useContext(AuthContext);
-
   return (
     <div className={styles.nav}>
       <ul>

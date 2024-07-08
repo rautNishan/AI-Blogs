@@ -22,3 +22,51 @@
   font-size: 18px;
   margin-left: 20px;
 }
+
+.logOutButton {
+  color: rgb(167, 165, 165);
+  padding: 10px;
+  margin-top: 20px;
+  border-radius: 7px;
+  width: 8%;
+  border: none;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.editUserBlogButton {
+  background-color: rgb(6, 184, 6);
+  padding: 12px;
+  border: none;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  border-radius: 7px;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.viewUserBlogButton {
+  background-color: rgb(183, 183, 183);
+  padding: 12px;
+  border: none;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  border-radius: 7px;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.deleteUserBlogButton {
+  background-color: rgb(255, 83, 48);
+  padding: 12px;
+  border: none;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  border-radius: 7px;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}

@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
 
 interface IProps {
   children?: ReactNode;
@@ -20,6 +20,15 @@ export const AuthProvider = ({ children }: IProps) => {
   const [authenticated, setAuthenticated] = useState(
     initialValue.authenticated
   );
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    console.log("This is Token in AuthContext: ", token);
+
+    if (token) {
+      setAuthenticated(true);
+    }
+  }, []);
 
   return (
     <AuthContext.Provider value={{ authenticated, setAuthenticated }}>
