@@ -1,10 +1,17 @@
 import { QueryRunner } from "typeorm";
 import { DBConnection } from "../../../database/connection/connection";
-import { ICreateOptions } from "../../../database/interfaces/database.interfaces";
+import {
+  ICreateOptions,
+  IFindByIdOptions,
+  IPaginatedData,
+} from "../../../database/interfaces/database.interfaces";
 import { BlogCreateDto } from "../dtos/blog.create.dto";
 import { BlogEntity } from "../entities/blog.entity";
 import { BlogService } from "../services/blog.service";
 import { BlogSerialization } from "../serializations/blog.serialization";
+import { HttpException } from "../../../common/exceptions/http-exceptions";
+import { HttpStatusCode } from "../../../common/constants/http.status.code";
+import { BlogListDto } from "../dtos/blog.list.dto";
 
 export class BlogUserController {
   private readonly _blogService: BlogService;
@@ -31,5 +38,38 @@ export class BlogUserController {
     } finally {
       await queryRunner.release();
     }
+  }
+
+  async getById(
+    id: number,
+    options?: IFindByIdOptions<BlogEntity>
+  ): Promise<BlogEntity> {
+    try {
+      const data: BlogEntity | null = await this._blogService.getById(
+        id,
+        options
+      );
+      if (!data) {
+        throw new HttpException(
+          HttpStatusCode.NOT_FOUND,
+          "Blog with that id was not found."
+        );
+      }
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getAll(options?: BlogListDto): Promise<IPaginatedData<BlogEntity>> {
+    return await this._blogService.getAll({
+      options: {
+        skip: options?.page,
+        take: options?.limit,
+        where: { userId: options?.userId },
+        select: ["id", "title", "subTitle", "userId"],
+      },
+      withDeleted: options?.withDeleted,
+    });
   }
 }

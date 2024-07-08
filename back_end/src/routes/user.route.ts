@@ -96,5 +96,14 @@ export function userRouterFactory(): Router {
     })
   );
 
+  userRouter.get(
+    "/blog/list",
+    UserProtectedGuard,
+    asyncHandler(async (req: Request, res: Response) => {
+      const userId = req[REQUEST_META.PROTECTED_USER];
+      res.json(await blogController.getAll({ userId: userId }));
+    })
+  );
+
   return userRouter;
 }
