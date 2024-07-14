@@ -69,6 +69,15 @@ export class BlogService implements IBlogService {
     return await this._blogRepository.getOne(options);
   }
 
+  async findOneOrFail(
+    id: number,
+    options?: IFindByIdOptions<BlogEntity>
+  ): Promise<BlogEntity> {
+    console.log("This is Options in Service: ", options);
+
+    return await this._blogRepository.findOneOrFail(id, options);
+  }
+
   async softDelete(
     entity: BlogEntity,
     options?: IOnlyEntityManager | undefined

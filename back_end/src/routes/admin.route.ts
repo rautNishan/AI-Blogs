@@ -13,9 +13,21 @@ import { RequestQueryValidator } from "../common/request/validator/request.query
 import { RequestListQueryDto } from "../common/request/query/request.list.query.dto";
 import { BlogListDto } from "../modules/blogs/dtos/blog.list.dto";
 import { UserAdminController } from "../modules/users/controllers/user.admin.controller";
+import { AuthAdminController } from "../modules/auth/controllers/auth.admin.controller";
+import { UserLoginDto } from "../modules/auth/dtos/user.login.dto";
 
 export function adminRouterFactory(): Router {
   const adminRouter: Router = express.Router();
+
+  const authAdminController = new AuthAdminController();
+  adminRouter.post(
+    "/auth/login",
+    RequestBodyValidation(UserLoginDto),
+    asyncHandler(async (req: Request, res: Response) => {
+      const incomingData = req.body;
+      res.json(await authAdminController.login(incomingData));
+    })
+  );
 
   const userAdminController = new UserAdminController();
 

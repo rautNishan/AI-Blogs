@@ -35,7 +35,6 @@ export class BaseRepository<T extends DataBaseBaseEntity>
         this._repo.target, //This is Entity like
         createData
       );
-
       //Pass this instance to save method which will insert the instance
       return await options.entityManager.save(entityInstance);
     }

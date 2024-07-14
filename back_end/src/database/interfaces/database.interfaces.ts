@@ -31,6 +31,7 @@ export interface IFindByIdOptions<T> {
   entityManager?: EntityManager;
   options?: FindOneOptions<T>;
   withDeleted?: boolean;
+  protectedUserId?: number;
 }
 
 export interface IFindOneOption<T> {

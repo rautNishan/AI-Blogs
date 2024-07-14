@@ -14,6 +14,8 @@ import { UserCreateDto } from "../modules/users/dtos/user.create.dto";
 import { asyncHandler } from "../utils/async.handler";
 import { BlogUserController } from "../modules/blogs/controllers/blog.user.controller";
 import { BlogCreateDto } from "../modules/blogs/dtos/blog.create.dto";
+import { RequestIdParamDto } from "../common/request/param/request.id.param.dto";
+import { RequestParamValidator } from "../common/request/validator/request.param.validator";
 
 export function userRouterFactory(): Router {
   const userRouter: Router = express.Router();
@@ -102,6 +104,21 @@ export function userRouterFactory(): Router {
     asyncHandler(async (req: Request, res: Response) => {
       const userId = req[REQUEST_META.PROTECTED_USER];
       res.json(await blogController.getAll({ userId: userId }));
+    })
+  );
+
+  userRouter.get(
+    "/blog/:id",
+    RequestParamValidator(RequestIdParamDto),
+    UserProtectedGuard,
+    asyncHandler(async (req: Request, res: Response) => {
+      const { id } = req.params;
+      const userId = req[REQUEST_META.PROTECTED_USER];
+      res.json(
+        await blogController.getById(Number(id), {
+          protectedUserId: Number(userId),
+        })
+      );
     })
   );
 

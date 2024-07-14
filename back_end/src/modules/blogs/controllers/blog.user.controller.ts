@@ -45,16 +45,25 @@ export class BlogUserController {
     options?: IFindByIdOptions<BlogEntity>
   ): Promise<BlogEntity> {
     try {
-      const data: BlogEntity | null = await this._blogService.getById(
-        id,
-        options
-      );
-      if (!data) {
-        throw new HttpException(
-          HttpStatusCode.NOT_FOUND,
-          "Blog with that id was not found."
-        );
+      let data: BlogEntity | null;
+      if (options?.protectedUserId) {
+        console.log("Searching for UserProtectedUserId");
+
+        data = await this._blogService.findOneOrFail(id, {
+          options: {
+            where: { userId: options.protectedUserId },
+            select: ["id", "title", "subTitle", "userId", "tags"],
+          },
+          ...options,
+        });
+        return data;
       }
+      data = await this._blogService.findOneOrFail(id, {
+        ...options,
+        options: {
+          select: ["id", "title", "subTitle", "userId", "tags"],
+        },
+      });
       return data;
     } catch (error) {
       throw error;
@@ -67,7 +76,7 @@ export class BlogUserController {
         skip: options?.page,
         take: options?.limit,
         where: { userId: options?.userId },
-        select: ["id", "title", "subTitle", "userId"],
+        select: ["id", "title", "subTitle", "userId", "tags"],
       },
       withDeleted: options?.withDeleted,
     });

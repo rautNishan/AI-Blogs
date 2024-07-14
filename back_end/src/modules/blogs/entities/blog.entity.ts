@@ -2,6 +2,7 @@ import { Column, Entity, JoinColumn, ManyToMany, ManyToOne } from "typeorm";
 import { DataBaseBaseEntity } from "../../../database/base/entity/base.entity";
 import { IBlog } from "../interfaces/blog.interface";
 import { UserEntity } from "../../users/entities/user.entity";
+import { text } from "stream/consumers";
 
 export const BLOG_DATABASE_NAME = "blogs";
 
@@ -26,6 +27,14 @@ export class BlogEntity extends DataBaseBaseEntity implements IBlog {
     type: "text",
   })
   description: string;
+
+  @Column({
+    name: "tags",
+    nullable: true,
+    type: "text",
+    array: true,
+  })
+  tags: string[];
 
   @Column({
     name: "user_id",

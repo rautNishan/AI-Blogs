@@ -1,6 +1,8 @@
 import {
+  IsArray,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
   MaxLength,
   Min,
@@ -26,4 +28,8 @@ export class BlogCreateDto implements IBlog {
   @IsNumber()
   @Min(1)
   userId: number;
+
+  @IsOptional()
+  @IsArray()
+  tags: string[];
 }
