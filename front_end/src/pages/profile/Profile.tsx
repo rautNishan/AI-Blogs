@@ -1,9 +1,9 @@
 import axios, { AxiosError } from "axios";
 import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BACKEND_BASE_URL } from "../../common/constants/backend.base.url";
 import { AuthContext } from "../../common/context/auth.context";
-import { BlogUserRelatedCard } from "../../components/blogs/Blog.user.card";
+import { BlogCard } from "../../components/blogs/Blog.card";
 import Button from "../../components/common/button/Button";
 import ButtonStyle from "../../components/common/button/Button.module.css";
 import ProfileStyle from "./Profile.module.css";
@@ -24,6 +24,7 @@ interface IBlogInfo {
   title: string;
   subTitle: string;
   userId: string | number;
+  tags: string[];
 }
 export function Profile() {
   const navigate = useNavigate();
@@ -35,10 +36,13 @@ export function Profile() {
     null
   );
 
+  console.log("This is Pagination Info: ", paginationInfo);
+
   const [blogs, setBlogs] = useState<IBlogInfo[] | []>([]);
 
   const token = localStorage.getItem("token");
 
+  //Function to Handle Logout
   const handleLogOut = () => {
     localStorage.removeItem("token");
     setAuthenticated(false);
@@ -94,14 +98,19 @@ export function Profile() {
       <div className={ProfileStyle.profileInfoSection}>
         <span>
           <h1>Hi {userInfo?.userName} Welcome Back</h1>
+          <Link className={ProfileStyle.link} to="/add-blog">
+            Create a New Blog
+          </Link>
         </span>
       </div>
 
       {blogs.length > 0 ? (
         blogs.map((blog) => (
-          <BlogUserRelatedCard
-            blogTitle={blog.title}
-            blogSubTitle={blog.subTitle}
+          <BlogCard
+            title={blog.title}
+            imgUrl="thisissds"
+            subTitle={blog.subTitle}
+            tags={blog.tags}
           />
         ))
       ) : (

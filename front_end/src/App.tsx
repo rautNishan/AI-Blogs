@@ -7,6 +7,7 @@ import Blogs from "./pages/blogs/Blogs";
 import Login from "./pages/login/Login";
 import { Profile } from "./pages/profile/Profile";
 import Register from "./pages/register/Register";
+import { BlogAddPage } from "./pages/blogs/Blog.add";
 function App() {
   const { authenticated } = useContext(AuthContext);
   console.log("This is Authenticated: ", authenticated);
@@ -18,8 +19,17 @@ function App() {
         <Route path="/blogs" element={<Blogs />} />
         <Route
           path="/login"
-          element={authenticated ? <Navigate to="/error" replace /> : <Login />}
+          element={
+            authenticated ? <Navigate to="/profile" replace /> : <Login />
+          }
         />
+        {/* <Route
+          path="/add-blog"
+          element={
+            authenticated ? <Navigate to="/add-blog" replace /> : <Login />
+          }
+        /> */}
+        <Route path="/add-blog" element={<BlogAddPage />} />
         <Route path="/error" element={<ErrorPage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />

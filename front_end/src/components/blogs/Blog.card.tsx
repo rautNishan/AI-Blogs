@@ -3,7 +3,7 @@ import BlogCardStyle from "./Blog.card.module.css";
 export interface IBlogCardProps {
   imgUrl: string;
   title: string;
-  shortDescription: string;
+  subTitle: string;
   tags: string[];
 }
 
@@ -20,7 +20,7 @@ export function BlogCard(props: IBlogCardProps) {
         <p>{props.title}</p>
       </div>
       <div className={BlogCardStyle.shortDescription}>
-        <p>{props.shortDescription}</p>
+        <p>{props.subTitle}</p>
       </div>
     </div>
   );

@@ -12,37 +12,37 @@ export default function Blogs() {
       <BlogCard
         imgUrl={imgUrl}
         title="How AI is changing the world"
-        shortDescription="This is Short description about ai. How world is changing to its current direction"
+        subTitle="This is Short description about ai. How world is changing to its current direction"
         tags={["Artificial Intelligence", "Technology", "AI"]}
       />
       <BlogCard
         imgUrl={img2}
         title="How AI is changing the world"
-        shortDescription="This is Short description about ai. How world is changing to its current direction"
+        subTitle="This is Short description about ai. How world is changing to its current direction"
         tags={["Artificial Intelligence", "Technology", "AI"]}
       />
       <BlogCard
         imgUrl={img3}
         title="How AI is changing the world"
-        shortDescription="This is Short description about ai. How world is changing to its current direction"
+        subTitle="This is Short description about ai. How world is changing to its current direction"
         tags={["Artificial Intelligence", "Technology", "AI"]}
       />
       <BlogCard
         imgUrl={img4}
         title="How AI is changing the world"
-        shortDescription="This is Short description about ai. How world is changing to its current direction"
+        subTitle="This is Short description about ai. How world is changing to its current direction"
         tags={["Artificial Intelligence", "Technology", "AI"]}
       />
       <BlogCard
         imgUrl={img5}
         title="How AI is changing the world"
-        shortDescription="This is Short description about ai. How world is changing to its current direction"
+        subTitle="This is Short description about ai. How world is changing to its current direction"
         tags={["Artificial Intelligence", "Technology", "AI"]}
       />
       <BlogCard
         imgUrl={img6}
         title="How AI is changing the world"
-        shortDescription="This is Short description about ai. How world is changing to its current direction"
+        subTitle="This is Short description about ai. How world is changing to its current direction"
         tags={["Artificial Intelligence", "Technology", "AI"]}
       />
     </div>

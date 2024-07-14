@@ -1,0 +1,62 @@
+.blogAddMainPage {
+  /* border: 2px solid black; */
+  margin-top: 80px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.addBlogFrom {
+  border: 2px solid black;
+  width: 50%;
+  display: flex;
+  /* flex-direction: column; */
+  /* align-items: center; */
+  height: 400px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.formsGroupSection {
+  border: 2px solid rgb(0, 0, 0);
+  width: 40%;
+  padding: 7px;
+  height: 50%;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.addBlogFrom label {
+  font-size: large;
+  margin-top: 6px;
+}
+
+.addBlogFrom input {
+  width: 80%;
+  padding: 7px;
+}
+
+.description {
+  border: 2px solid black;
+  width: 52%;
+  margin-left: 22px;
+  margin-top: 10px;
+  padding: 7px;
+}
+
+.description label {
+  font-size: large;
+  margin-top: 6px;
+}
+
+.addBlogFrom textarea {
+  width: 95%;
+  padding: 7px;
+  height: 90%;
+}
+
+.image {
+  border: 2px solid black;
+}

@@ -23,7 +23,6 @@ export const AuthProvider = ({ children }: IProps) => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    console.log("This is Token in AuthContext: ", token);
 
     if (token) {
       setAuthenticated(true);
