@@ -8,7 +8,7 @@
 }
 
 .addBlogFrom {
-  border: 2px solid black;
+  /* border: 2px solid black; */
   width: 50%;
   display: flex;
   /* flex-direction: column; */
@@ -19,11 +19,11 @@
 }
 
 .formsGroupSection {
-  border: 2px solid rgb(0, 0, 0);
-  width: 40%;
+  /* border: 2px solid rgb(0, 0, 0); */
+  width: 95%;
   padding: 7px;
   height: 50%;
-  margin-top: 10px;
+  /* margin-top: 10px; */
   display: flex;
   flex-direction: column;
 }
@@ -36,10 +36,11 @@
 .addBlogFrom input {
   width: 80%;
   padding: 7px;
+  margin-top: 5px;
 }
 
 .description {
-  border: 2px solid black;
+  /* border: 2px solid black; */
   width: 52%;
   margin-left: 22px;
   margin-top: 10px;
@@ -58,5 +59,69 @@
 }
 
 .image {
-  border: 2px solid black;
+  /* border: 1px solid black; */
+  height: 40%;
+  width: 82%;
+  margin-left: 5px;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* align-items: center; */
+}
+
+.labelWrapper {
+  /* border: 1px solid black; */
+  margin-top: 6px;
+  margin-left: 2px;
+  width: 100%;
+}
+
+.addBlogLeftSide {
+  width: 40%;
+}
+
+.addImage {
+  border: 1px solid black;
+  height: 200px;
+  width: 100%;
+  margin-top: 5px;
+  margin-bottom: 13px;
+  border-style: dashed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.plusSign {
+  font-size: 80px;
+  color: #aaa;
+  background-color: white;
+  border: none;
+}
+
+.plusSign:hover {
+  cursor: pointer;
+}
+
+.fileInput {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.previewImage {
+  width: 80%;
+  height: 80%;
+  overflow: hidden;
+  object-fit: cover;
+}
+
+.removeButton {
+  margin-bottom: 140px;
+  background-color: white;
+  border: none;
+  font-size: 22px;
+  color: rgb(177, 177, 177);
 }
