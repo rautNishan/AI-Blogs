@@ -2,6 +2,8 @@ import { useContext, useEffect, useRef, useState } from "react";
 import BlogAddStyle from "./Blog.add.module.css";
 import { AuthContext } from "../../common/context/auth.context";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { BASE_BLOG_IMAGE_PATH } from "../../common/constants/backend-image-path.constant";
 
 export function BlogAddPage() {
   const { authenticated } = useContext(AuthContext);
@@ -21,14 +23,33 @@ export function BlogAddPage() {
     }
   };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setSelectedImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+      const formData = new FormData();
+      formData.append("image", file);
+
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/user/file/upload/image",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        console.log("This is Response: ", response.data.data);
+        console.log(
+          "Search For an Image",
+          BASE_BLOG_IMAGE_PATH + response.data.data.fileName
+        );
+        setSelectedImage(BASE_BLOG_IMAGE_PATH + response.data.data.fileName);
+      } catch (error) {
+        console.error("Error uploading file:", error);
+      }
     }
   };
 
