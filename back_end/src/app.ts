@@ -1,6 +1,7 @@
-import { Express } from "express";
+import express, { Express } from "express";
 import { IAppOptions } from "./common/interfaces/app.interfaces";
 import { ICustomRouter } from "./common/interfaces/router.interface";
+import path from "path";
 export class AppInit {
   private app: Express;
 
@@ -11,6 +12,8 @@ export class AppInit {
 
     this.app = options.app;
     this.port = options.port;
+
+    this.initializeStaticContent();
 
     this.initializeMiddlewares(options.beforeRouteMiddlewares);
 
@@ -30,5 +33,12 @@ export class AppInit {
       console.log(`Initializing Routes ${route.routeName}`);
       this.app.use(route.routeName, route.router);
     });
+  }
+
+  private initializeStaticContent() {
+    this.app.use(
+      "/blogs",
+      express.static(path.join(__dirname, "/public/blogs"))
+    );
   }
 }

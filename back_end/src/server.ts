@@ -6,6 +6,7 @@ import { DBConnection } from "./database/connection/connection";
 import { userRouterFactory } from "./routes/user.route";
 import { adminRouterFactory } from "./routes/admin.route";
 import cors from "cors";
+import path from "path";
 
 export async function main() {
   try {
@@ -31,7 +32,7 @@ export async function main() {
       afterRouteMiddleWares: [GlobalExceptionFilter],
     });
   } catch (err) {
-    console.log("This is Error: ", err);
+    console.log("This is Error in Server: ", err);
     throw err;
   }
 }

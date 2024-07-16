@@ -19,5 +19,5 @@ export class FileImageUploadDto {
 
   @IsOptional()
   @IsString()
-  description?: string;
+  description?: string | null;
 }
