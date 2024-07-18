@@ -1,5 +1,5 @@
 import { Transform } from "class-transformer";
-import { IsNotEmpty, IsNumber, Min } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString, Min } from "class-validator";
 
 export class RequestIdParamDto {
   @Transform(({ value }) => Number(value))
@@ -7,4 +7,10 @@ export class RequestIdParamDto {
   @Min(1)
   @IsNotEmpty()
   id: number;
+}
+
+export class RequestFileNameParamDto {
+  @IsString()
+  @IsNotEmpty()
+  fileName: string;
 }

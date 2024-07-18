@@ -6,7 +6,6 @@ import { DBConnection } from "./database/connection/connection";
 import { userRouterFactory } from "./routes/user.route";
 import { adminRouterFactory } from "./routes/admin.route";
 import cors from "cors";
-import path from "path";
 
 export async function main() {
   try {

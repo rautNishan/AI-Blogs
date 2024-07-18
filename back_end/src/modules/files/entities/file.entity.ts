@@ -1,4 +1,4 @@
-import { Column, Entity } from "typeorm";
+import { Column, Entity, Index } from "typeorm";
 import { FILE_ASSOCIATED_TYPE } from "../../../common/file/constants/file.constants";
 import { DataBaseBaseEntity } from "../../../database/base/entity/base.entity";
 import { IFile } from "../interfaces/file.interface";
@@ -14,6 +14,7 @@ export class FileEntity extends DataBaseBaseEntity implements IFile {
   })
   path: string;
 
+  @Index()
   @Column({
     type: "varchar",
     name: "file_name",

@@ -5,7 +5,10 @@ import { ValidationException } from "../common/exceptions/validation-exceptions"
 import { storage } from "../common/file/multer/multer.setup";
 import { REQUEST_META } from "../common/request/constant/request.constant";
 import { UserProtectedGuard } from "../common/request/guards/authenticated.user";
-import { RequestIdParamDto } from "../common/request/param/request.id.param.dto";
+import {
+  RequestFileNameParamDto,
+  RequestIdParamDto,
+} from "../common/request/param/request.id.param.dto";
 import { RequestListQueryDto } from "../common/request/query/request.list.query.dto";
 import { RequestBodyValidation } from "../common/request/validator/request.body.validator";
 import { RequestParamValidator } from "../common/request/validator/request.param.validator";
@@ -95,7 +98,7 @@ export function userRouterFactory(): Router {
     UserProtectedGuard,
     RequestBodyValidation(BlogCreateDto),
     asyncHandler(async (req, res) => {
-      const incomingData = req.body; //Since it is Valudated Request Body
+      const incomingData = req.body; //Since it is Valuated Request Body
       console.log("This is Incoming Data: ", incomingData);
       const data = await blogController.create(incomingData);
       res[RESPONSE_META.RESPONSE_MESSAGE] = "Blog Created Successfully";
@@ -127,11 +130,16 @@ export function userRouterFactory(): Router {
     })
   );
 
+  //Files
   const fileUserController = FileUserController.getInstance();
+
+  //Upload Images
   userRouter.post(
     "/file/upload/image",
     upload.single("image"),
     asyncHandler(async (req: Request, res: Response) => {
+      console.log("Request Has Been Made for file upload");
+
       const file = req.file;
       if (!file) {
         throw new HttpException(
@@ -147,8 +155,19 @@ export function userRouterFactory(): Router {
       });
       res[RESPONSE_META.RESPONSE_MESSAGE] = "Image Upload Successfully";
       console.log("This is Response: ", response);
-
       res.json(response);
+    })
+  );
+
+  //Delete Images
+  userRouter.delete(
+    "/file/delete/:fileName",
+    UserProtectedGuard,
+    RequestParamValidator(RequestFileNameParamDto),
+    asyncHandler(async (req: Request, res: Response) => {
+      const { fileName } = req.params;
+      console.log("This is Incoming Id: ", fileName);
+      res.json(await fileUserController.deleteImage(fileName));
     })
   );
 

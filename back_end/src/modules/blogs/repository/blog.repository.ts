@@ -48,7 +48,6 @@ export class BlogRepository
       where: where,
       select: select,
     });
-    console.log("This is Data: ", data);
 
     if (!data) {
       throw new HttpException(
