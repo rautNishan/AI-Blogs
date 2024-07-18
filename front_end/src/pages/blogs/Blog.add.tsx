@@ -4,15 +4,18 @@ import { AuthContext } from "../../common/context/auth.context";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BASE_BLOG_IMAGE_PATH } from "../../common/constants/backend-image-path.constant";
+import { BACKEND_BASE_URL } from "../../common/constants/backend.base.url";
 
 export function BlogAddPage() {
-  const { authenticated } = useContext(AuthContext);
+  const token = localStorage.getItem("token");
+  const { authenticated, isLoading } = useContext(AuthContext);
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [fileName, setFileName] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!authenticated) {
+    if (!authenticated && !isLoading) {
       navigate("/login");
     }
   });
@@ -38,14 +41,12 @@ export function BlogAddPage() {
           {
             headers: {
               "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${token}`,
             },
           }
         );
-        console.log("This is Response: ", response.data.data);
-        console.log(
-          "Search For an Image",
-          BASE_BLOG_IMAGE_PATH + response.data.data.fileName
-        );
+
+        setFileName(response.data.data.fileName);
         setSelectedImage(BASE_BLOG_IMAGE_PATH + response.data.data.fileName);
       } catch (error) {
         console.error("Error uploading file:", error);
@@ -53,18 +54,39 @@ export function BlogAddPage() {
     }
   };
 
-  const handleRemoveImage = () => {
+  const handleRemoveImage = async () => {
     setSelectedImage(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
+    console.log("This is Selected Value: ", fileName);
+    try {
+      const response = await axios.delete(
+        BACKEND_BASE_URL + `/user/file/delete/${fileName}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("This is Response: ", response);
+    } catch (error) {
+      console.log("This is Error: ", error);
+    }
+  };
+
+  const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
   };
 
   return (
     <>
       <div className={BlogAddStyle.blogAddMainPage}>
         <h1>Add Your Blog Here</h1>
-        <div className={BlogAddStyle.addBlogFrom}>
+        <form
+          onSubmit={(e) => handleSubmitForm(e)}
+          className={BlogAddStyle.addBlogFrom}
+        >
           <div className={BlogAddStyle.addBlogLeftSide}>
             <div className={BlogAddStyle.formsGroupSection}>
               <label>Blog title</label>
@@ -117,7 +139,7 @@ export function BlogAddPage() {
             <label>Description</label>
             <textarea />
           </div>
-        </div>
+        </form>
       </div>
     </>
   );

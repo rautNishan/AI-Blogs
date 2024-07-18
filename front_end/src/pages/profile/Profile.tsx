@@ -49,7 +49,7 @@ export function Profile() {
     navigate("/login");
   };
 
-  //Fetch UserInfromation
+  //Fetch UserInformation
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
@@ -79,12 +79,12 @@ export function Profile() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      const incomigBlogList: {
+      const incomingBlogList: {
         _pagination: IPaginationInfo;
         data: IBlogInfo[] | [];
       } = userBlogListResponse.data.data;
-      const paginationInfo: IPaginationInfo = incomigBlogList._pagination;
-      const blogList: IBlogInfo[] | [] = incomigBlogList.data;
+      const paginationInfo: IPaginationInfo = incomingBlogList._pagination;
+      const blogList: IBlogInfo[] | [] = incomingBlogList.data;
       setPaginationInfo(paginationInfo);
       setBlogs(blogList);
     };

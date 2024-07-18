@@ -23,12 +23,6 @@ function App() {
             authenticated ? <Navigate to="/profile" replace /> : <Login />
           }
         />
-        {/* <Route
-          path="/add-blog"
-          element={
-            authenticated ? <Navigate to="/add-blog" replace /> : <Login />
-          }
-        /> */}
         <Route path="/add-blog" element={<BlogAddPage />} />
         <Route path="/error" element={<ErrorPage />} />
         <Route path="/register" element={<Register />} />
