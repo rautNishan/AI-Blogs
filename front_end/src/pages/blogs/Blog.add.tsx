@@ -1,10 +1,29 @@
-import { useContext, useEffect, useRef, useState } from "react";
-import BlogAddStyle from "./Blog.add.module.css";
-import { AuthContext } from "../../common/context/auth.context";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useContext, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { BASE_BLOG_IMAGE_PATH } from "../../common/constants/backend-image-path.constant";
 import { BACKEND_BASE_URL } from "../../common/constants/backend.base.url";
+import { AuthContext } from "../../common/context/auth.context";
+import BlogAddStyle from "./Blog.add.module.css";
+
+export interface IUploadImage {
+  path: string;
+
+  fileName: string;
+
+  mime: string;
+
+  size?: number;
+
+  description?: string | null;
+}
+
+export interface IBlog {
+  title: string;
+  subTitle: string;
+  description: string;
+  tags: string[];
+}
 
 export function BlogAddPage() {
   const token = localStorage.getItem("token");
@@ -13,6 +32,11 @@ export function BlogAddPage() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
+
+  const [title, setTitle] = useState<string>("");
+  const [subTitle, setSubTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [tags, setTags] = useState<string>("");
 
   useEffect(() => {
     if (!authenticated && !isLoading) {
@@ -36,7 +60,7 @@ export function BlogAddPage() {
 
       try {
         const response = await axios.post(
-          "http://localhost:3000/user/file/upload/image",
+          `${BACKEND_BASE_URL}/user/file/upload/image`,
           formData,
           {
             headers: {
@@ -45,9 +69,9 @@ export function BlogAddPage() {
             },
           }
         );
-
-        setFileName(response.data.data.fileName);
-        setSelectedImage(BASE_BLOG_IMAGE_PATH + response.data.data.fileName);
+        const uploadResponseData: IUploadImage = response.data.data;
+        setFileName(uploadResponseData.fileName);
+        setSelectedImage(BASE_BLOG_IMAGE_PATH + uploadResponseData.fileName);
       } catch (error) {
         console.error("Error uploading file:", error);
       }
@@ -59,7 +83,7 @@ export function BlogAddPage() {
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
-    console.log("This is Selected Value: ", fileName);
+
     try {
       const response = await axios.delete(
         BACKEND_BASE_URL + `/user/file/delete/${fileName}`,
@@ -69,14 +93,44 @@ export function BlogAddPage() {
           },
         }
       );
-      console.log("This is Response: ", response);
+      console.log("This is Response: ", response.data);
     } catch (error) {
       console.log("This is Error: ", error);
     }
   };
 
-  const handleSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmitForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const tagArr: string[] = [];
+    tagArr.push(tags);
+
+    //prepare data to send to backend
+    const dataToSend: IBlog = {
+      title: title,
+      subTitle: subTitle,
+      description: description,
+      tags: tagArr,
+    };
+    console.log("This is data to send: ", dataToSend);
+
+    try {
+      const response = await fetch(`${BACKEND_BASE_URL}/user/blog/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(dataToSend),
+      });
+      console.log("This is Response: ", response);
+      if (response.ok) {
+        const resData = response.json();
+        console.log("This is ResData: ", resData);
+      }
+    } catch (error) {
+      console.log("This is Error: ", error);
+    }
+    // const
   };
 
   return (
@@ -90,11 +144,14 @@ export function BlogAddPage() {
           <div className={BlogAddStyle.addBlogLeftSide}>
             <div className={BlogAddStyle.formsGroupSection}>
               <label>Blog title</label>
-              <input type="text" />
+              <input type="text" onChange={(e) => setTitle(e.target.value)} />
               <label>Blog Subtitle</label>
-              <input type="text" />
+              <input
+                type="text"
+                onChange={(e) => setSubTitle(e.target.value)}
+              />
               <label>Tags</label>
-              <input type="text" />
+              <input type="text" onChange={(e) => setTags(e.target.value)} />
             </div>
 
             <div className={BlogAddStyle.image}>
@@ -137,8 +194,14 @@ export function BlogAddPage() {
 
           <div className={BlogAddStyle.description}>
             <label>Description</label>
-            <textarea />
+            <textarea
+              onChange={(e) => {
+                setDescription(e.target.value);
+              }}
+            />
           </div>
+
+          <button className={BlogAddStyle.submitButton}>Add Blog</button>
         </form>
       </div>
     </>

@@ -7,7 +7,6 @@ export interface ILoginRequestProps {
   password?: string | null;
 }
 export async function LoginRequest(dataToSend: ILoginRequestProps) {
-  console.log("This is DataToSend: ", dataToSend);
   const response = await fetch(`${BASE_URL}/user/auth/login`, {
     method: "POST",
     headers: {
