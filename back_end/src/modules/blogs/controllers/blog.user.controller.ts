@@ -9,9 +9,8 @@ import { BlogCreateDto } from "../dtos/blog.create.dto";
 import { BlogEntity } from "../entities/blog.entity";
 import { BlogService } from "../services/blog.service";
 import { BlogSerialization } from "../serializations/blog.serialization";
-import { HttpException } from "../../../common/exceptions/http-exceptions";
-import { HttpStatusCode } from "../../../common/constants/http.status.code";
 import { BlogListDto } from "../dtos/blog.list.dto";
+import { IBlog } from "../interfaces/blog.interface";
 
 export class BlogUserController {
   private readonly _blogService: BlogService;
@@ -20,7 +19,7 @@ export class BlogUserController {
   }
 
   async create(
-    incomingData: BlogCreateDto,
+    incomingData: IBlog,
     options?: ICreateOptions
   ): Promise<BlogEntity | BlogSerialization> {
     const queryRunner: QueryRunner =

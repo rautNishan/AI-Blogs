@@ -14,7 +14,7 @@ import {
 import { UserService } from "../../users/services/user.service";
 import { BlogCreateDto } from "../dtos/blog.create.dto";
 import { BlogEntity } from "../entities/blog.entity";
-import { IBlogService } from "../interfaces/blog.interface";
+import { IBlog, IBlogService } from "../interfaces/blog.interface";
 import { BlogRepository } from "../repository/blog.repository";
 
 export class BlogService implements IBlogService {
@@ -35,7 +35,7 @@ export class BlogService implements IBlogService {
 
   private readonly _userService = UserService.getInstance();
 
-  async create(data: BlogCreateDto, options?: ICreateOptions) {
+  async create(data: IBlog, options?: ICreateOptions) {
     const user = await this._userService.getById(data.userId);
     if (!user) {
       throw new HttpException(HttpStatusCode.NOT_FOUND, "User Not Found");

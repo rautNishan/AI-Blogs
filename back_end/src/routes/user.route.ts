@@ -23,6 +23,7 @@ import { UserController } from "../modules/users/controllers/user.controller";
 import { UserCreateDto } from "../modules/users/dtos/user.create.dto";
 import { asyncHandler } from "../utils/async.handler";
 import { HttpException } from "../common/exceptions/http-exceptions";
+import { IBlog } from "../modules/blogs/interfaces/blog.interface";
 
 export function userRouterFactory(): Router {
   const userRouter: Router = express.Router();
@@ -31,6 +32,7 @@ export function userRouterFactory(): Router {
   //Auth
   const authUserController: AuthUserController = new AuthUserController();
 
+  //Auth
   userRouter.post(
     "/auth/login",
     RequestBodyValidation(UserLoginDto),
@@ -49,6 +51,7 @@ export function userRouterFactory(): Router {
 
   const userController: UserController = new UserController();
 
+  //User
   userRouter.get(
     "/auth-me",
     UserProtectedGuard,
@@ -98,8 +101,9 @@ export function userRouterFactory(): Router {
     UserProtectedGuard,
     RequestBodyValidation(BlogCreateDto),
     asyncHandler(async (req, res) => {
-      const incomingData = req.body; //Since it is Valuated Request Body
-      console.log("This is Incoming Data: ", incomingData);
+      const incomingData: IBlog = req.body; //Since it is Valuated Request Body
+      const userId: number = req[REQUEST_META.PROTECTED_USER];
+      incomingData.userId = userId;
       const data = await blogController.create(incomingData);
       res[RESPONSE_META.RESPONSE_MESSAGE] = "Blog Created Successfully";
       res.json(data);
@@ -166,8 +170,7 @@ export function userRouterFactory(): Router {
     RequestParamValidator(RequestFileNameParamDto),
     asyncHandler(async (req: Request, res: Response) => {
       const { fileName } = req.params;
-      console.log("This is Incoming Id: ", fileName);
-      res.json(await fileUserController.deleteImage(fileName));
+      res.json(await fileUserController.removeImage(fileName));
     })
   );
 

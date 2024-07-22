@@ -7,9 +7,8 @@ import {
   MaxLength,
   Min,
 } from "class-validator";
-import { IBlog } from "../interfaces/blog.interface";
 
-export class BlogCreateDto implements IBlog {
+export class BlogCreateDto {
   @IsString()
   @MaxLength(250)
   @IsNotEmpty()
@@ -24,10 +23,7 @@ export class BlogCreateDto implements IBlog {
   @IsNotEmpty()
   description: string;
 
-  @IsNotEmpty()
-  @IsNumber()
-  @Min(1)
-  userId: number;
+  userId?: number | null;
 
   @IsOptional()
   @IsArray()

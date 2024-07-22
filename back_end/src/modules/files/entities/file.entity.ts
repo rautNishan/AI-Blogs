@@ -1,4 +1,4 @@
-import { Column, Entity, Index } from "typeorm";
+import { AfterLoad, Column, Entity, Index } from "typeorm";
 import { FILE_ASSOCIATED_TYPE } from "../../../common/file/constants/file.constants";
 import { DataBaseBaseEntity } from "../../../database/base/entity/base.entity";
 import { IFile } from "../interfaces/file.interface";

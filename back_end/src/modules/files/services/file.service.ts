@@ -1,14 +1,13 @@
 import { Repository } from "typeorm";
 import { DBConnection } from "../../../database/connection/connection";
-import { FileEntity } from "../entities/file.entity";
-import { FileRepository } from "../repository/file.repository";
-import { FileImageUploadDto } from "../dtos/file.images.upload.dto";
 import {
   ICreateOptions,
   IFindOneOption,
   IOnlyEntityManager,
-  ISoftDelete,
 } from "../../../database/interfaces/database.interfaces";
+import { FileImageUploadDto } from "../dtos/file.images.upload.dto";
+import { FileEntity } from "../entities/file.entity";
+import { FileRepository } from "../repository/file.repository";
 
 export class FileService {
   private static _instance: FileService;
@@ -43,5 +42,12 @@ export class FileService {
     options?: IOnlyEntityManager
   ): Promise<FileEntity> {
     return await this._fileRepo.softDelete(file, options);
+  }
+
+  async hardDelete(
+    entity: FileEntity,
+    options?: IOnlyEntityManager | undefined
+  ): Promise<FileEntity> {
+    return await this._fileRepo.hardDelete(entity, options);
   }
 }

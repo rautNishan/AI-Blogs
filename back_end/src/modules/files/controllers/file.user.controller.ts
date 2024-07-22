@@ -44,8 +44,6 @@ export class FileUserController {
       const filePromise = new Promise((resolve, reject) => {
         fs.writeFile(filePath, file.buffer, (err: Error) => {
           if (err) {
-            console.log("This is Error: ", err);
-
             reject(
               new HttpException(
                 HttpStatusCode.INTERNAL_SERVER_ERROR,
@@ -66,11 +64,11 @@ export class FileUserController {
     }
   }
 
-  async deleteImage(fileName: string) {
+  async removeImage(fileName: string) {
     const filePath = path.join(__dirname, "../../../public/blogs", fileName);
     try {
       await fs.promises.unlink(filePath);
-      return await this.deleteFileInfoFromDataBase(fileName);
+      return await this.hardDelete(fileName);
     } catch (error) {
       throw new HttpException(
         HttpStatusCode.INTERNAL_SERVER_ERROR,
@@ -83,10 +81,17 @@ export class FileUserController {
     return await this._fileService.create(file);
   }
 
-  async deleteFileInfoFromDataBase(image: string): Promise<FileEntity> {
+  async softDelete(image: string): Promise<FileEntity> {
     const existingImage: FileEntity = await this._fileService.findOneOrFail(
       image
     );
     return await this._fileService.softDelete(existingImage);
+  }
+
+  async hardDelete(image: string): Promise<FileEntity> {
+    const existingImage: FileEntity = await this._fileService.findOneOrFail(
+      image
+    );
+    return await this._fileService.hardDelete(existingImage);
   }
 }

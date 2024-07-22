@@ -10,6 +10,7 @@ import { BlogCreateDto } from "../dtos/blog.create.dto";
 import { BlogListDto } from "../dtos/blog.list.dto";
 import { BlogEntity } from "../entities/blog.entity";
 import { BlogService } from "../services/blog.service";
+import { IBlog } from "../interfaces/blog.interface";
 
 export class BlogAdminController {
   private readonly _blogService: BlogService;
@@ -18,7 +19,7 @@ export class BlogAdminController {
   }
 
   async create(
-    incomingData: BlogCreateDto,
+    incomingData: IBlog,
     options?: ICreateOptions
   ): Promise<BlogEntity> {
     const queryRunner: QueryRunner =
