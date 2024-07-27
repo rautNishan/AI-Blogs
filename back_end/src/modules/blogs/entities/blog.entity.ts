@@ -1,7 +1,15 @@
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne } from "typeorm";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+} from "typeorm";
 import { DataBaseBaseEntity } from "../../../database/base/entity/base.entity";
 import { IBlog } from "../interfaces/blog.interface";
 import { UserEntity } from "../../users/entities/user.entity";
+import { FileEntity } from "../../files/entities/file.entity";
 
 export const BLOG_DATABASE_NAME = "blogs";
 
@@ -49,4 +57,10 @@ export class BlogEntity extends DataBaseBaseEntity implements IBlog {
     name: "user_id",
   })
   users?: UserEntity;
+
+  @OneToMany(() => FileEntity, (photo) => photo.blog, {
+    createForeignKeyConstraints: false,
+    cascade: false,
+  })
+  photos: FileEntity[] | null;
 }

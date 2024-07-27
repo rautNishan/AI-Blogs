@@ -16,6 +16,8 @@ import { BlogCreateDto } from "../dtos/blog.create.dto";
 import { BlogEntity } from "../entities/blog.entity";
 import { IBlog, IBlogService } from "../interfaces/blog.interface";
 import { BlogRepository } from "../repository/blog.repository";
+import { FileService } from "../../files/services/file.service";
+import { FILE_ASSOCIATED_TYPE } from "../../../common/file/constants/file.constants";
 
 export class BlogService implements IBlogService {
   private _blogRepository: BlogRepository;
@@ -34,13 +36,33 @@ export class BlogService implements IBlogService {
   }
 
   private readonly _userService = UserService.getInstance();
+  private readonly _fileService = FileService.getInstance();
 
-  async create(data: IBlog, options?: ICreateOptions) {
+  async create(data: IBlog & { imageName?: string }, options?: ICreateOptions) {
     const user = await this._userService.getById(data.userId);
     if (!user) {
       throw new HttpException(HttpStatusCode.NOT_FOUND, "User Not Found");
     }
-    return await this._blogRepository.create(data, options);
+
+    const imageName: string | null | undefined = data.imageName;
+    delete data.imageName; //Since in BlogEntity there is no any image name property
+    const createdData: BlogEntity = await this._blogRepository.create(
+      data,
+      options
+    );
+
+    //Handle Incoming Image
+    if (imageName) {
+      await this._fileService.updateBlogWithAssociation(
+        imageName,
+        {
+          associationId: createdData.id,
+          associationType: FILE_ASSOCIATED_TYPE.BLOG,
+        },
+        { entityManager: options?.entityManager }
+      );
+    }
+    return createdData;
   }
 
   async update(

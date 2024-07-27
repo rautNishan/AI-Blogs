@@ -10,7 +10,6 @@
   justify-content: center;
 }
 
-
 .profileInfoSection {
   /* border: 2px solid black; */
   text-align: center;
@@ -19,7 +18,16 @@
   overflow: hidden;
 }
 
-
+.blogs {
+  /* border: 2px solid black; */
+  display: flex;
+  padding: 10px;
+  width: 80%;
+  margin: auto;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 80px;
+}
 
 .link {
   font-size: none;
@@ -30,7 +38,6 @@
   border-radius: 7px;
 }
 
-
-.link:hover{
+.link:hover {
   padding: 12px;
 }

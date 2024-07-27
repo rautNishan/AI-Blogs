@@ -1,7 +1,15 @@
-import { AfterLoad, Column, Entity, Index } from "typeorm";
+import {
+  AfterLoad,
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  ManyToOne,
+} from "typeorm";
 import { FILE_ASSOCIATED_TYPE } from "../../../common/file/constants/file.constants";
 import { DataBaseBaseEntity } from "../../../database/base/entity/base.entity";
 import { IFile } from "../interfaces/file.interface";
+import { BlogEntity } from "../../blogs/entities/blog.entity";
 
 export const FILE_ENTITY_NAME = "files";
 @Entity({ name: FILE_ENTITY_NAME })
@@ -59,4 +67,14 @@ export class FileEntity extends DataBaseBaseEntity implements IFile {
     nullable: true,
   })
   associatedType: FILE_ASSOCIATED_TYPE | null;
+
+  /**
+   * Relations
+   */
+
+  @ManyToOne(() => BlogEntity, (blog) => blog.photos, {
+    createForeignKeyConstraints: false,
+  })
+  @JoinColumn({ name: "association_id" })
+  blog: BlogEntity;
 }

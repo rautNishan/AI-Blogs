@@ -75,7 +75,8 @@ export class BlogUserController {
         skip: options?.page,
         take: options?.limit,
         where: { userId: options?.userId },
-        select: ["id", "title", "subTitle", "userId", "tags"],
+        select: ["id", "title", "subTitle", "userId", "tags", "photos"],
+        relations: ["photos"],
       },
       withDeleted: options?.withDeleted,
     });

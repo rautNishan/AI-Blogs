@@ -7,6 +7,7 @@ import { BlogCard } from "../../components/blogs/Blog.card";
 import Button from "../../components/common/button/Button";
 import ButtonStyle from "../../components/common/button/Button.module.css";
 import ProfileStyle from "./Profile.module.css";
+import { BASE_BLOG_IMAGE_PATH } from "../../common/constants/backend-image-path.constant";
 interface IProfile {
   id: number | string | null;
   email: string | null;
@@ -19,12 +20,27 @@ interface IPaginationInfo {
   totalData: number;
 }
 
+interface IPhoto {
+  associatedType: string | null;
+  associationId: string | null;
+  createdAt: string | null;
+  deletedAt: null;
+  description: null;
+  fileName: string | null;
+  id: string | null;
+  mime: string | null;
+  path: string | null;
+  size: string | null;
+  updatedAt: string | null;
+}
+
 interface IBlogInfo {
   id: string | number;
   title: string;
   subTitle: string;
   userId: string | number;
   tags: string[];
+  photos: IPhoto[];
 }
 export function Profile() {
   const navigate = useNavigate();
@@ -73,6 +89,7 @@ export function Profile() {
       }
     };
 
+    //Fetch Blog of the User
     const fetchUserBlog = async () => {
       const userBlogListResponse = await axios.get(
         `${BACKEND_BASE_URL}/user/blog/list`,
@@ -83,6 +100,8 @@ export function Profile() {
         _pagination: IPaginationInfo;
         data: IBlogInfo[] | [];
       } = userBlogListResponse.data.data;
+      console.log("This is Incoming BlogList: ", incomingBlogList);
+
       const paginationInfo: IPaginationInfo = incomingBlogList._pagination;
       const blogList: IBlogInfo[] | [] = incomingBlogList.data;
       setPaginationInfo(paginationInfo);
@@ -103,19 +122,20 @@ export function Profile() {
           </Link>
         </span>
       </div>
-
-      {blogs.length > 0 ? (
-        blogs.map((blog) => (
-          <BlogCard
-            title={blog.title}
-            imgUrl="thisissds"
-            subTitle={blog.subTitle}
-            tags={blog.tags}
-          />
-        ))
-      ) : (
-        <h1>There is no blog for the current user</h1>
-      )}
+      <div className={ProfileStyle.blogs}>
+        {blogs.length > 0 ? (
+          blogs.map((blog) => (
+            <BlogCard
+              title={blog.title}
+              imgUrl={`${BASE_BLOG_IMAGE_PATH}${blog.photos[0].fileName}`}
+              subTitle={blog.subTitle}
+              tags={blog.tags}
+            />
+          ))
+        ) : (
+          <h1>There is no blog for the current user</h1>
+        )}
+      </div>
 
       <Button className={ButtonStyle.logOutButton} onClick={handleLogOut}>
         Log Out

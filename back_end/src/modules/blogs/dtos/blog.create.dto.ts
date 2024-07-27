@@ -28,4 +28,8 @@ export class BlogCreateDto {
   @IsOptional()
   @IsArray()
   tags: string[];
+
+  @IsString()
+  @IsOptional()
+  imageName: string;
 }

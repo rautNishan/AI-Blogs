@@ -22,6 +22,7 @@ export interface IBlog {
   title: string;
   subTitle: string;
   description: string;
+  imageName: string | null;
   tags: string[];
 }
 
@@ -110,6 +111,7 @@ export function BlogAddPage() {
       subTitle: subTitle,
       description: description,
       tags: tagArr,
+      imageName: fileName,
     };
     console.log("This is data to send: ", dataToSend);
 

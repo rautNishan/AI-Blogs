@@ -23,7 +23,6 @@ export class BlogRepository
     options?: IFindByIdOptions<BlogEntity>
   ): Promise<BlogEntity> {
     let data: BlogEntity | null;
-    console.log("This is Options in Repository: ", options);
 
     const where: Record<string, any> | any = options?.options?.where ?? {};
     where["id"] = id;
@@ -41,8 +40,6 @@ export class BlogRepository
         select: select,
       });
     }
-    console.log("This is where: ", where);
-    console.log("This is Select: ", select);
 
     data = await this.blogRepo.findOne({
       where: where,

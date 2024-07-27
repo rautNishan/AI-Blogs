@@ -24,7 +24,7 @@ export interface ICreateOptions {
 }
 
 export interface IUpdateOptions {
-  entityManager: EntityManager;
+  entityManager?: EntityManager;
 }
 
 export interface IFindByIdOptions<T> {
