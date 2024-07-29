@@ -142,8 +142,6 @@ export function userRouterFactory(): Router {
     "/file/upload/image",
     upload.single("image"),
     asyncHandler(async (req: Request, res: Response) => {
-      console.log("Request Has Been Made for file upload");
-
       const file = req.file;
       if (!file) {
         throw new HttpException(

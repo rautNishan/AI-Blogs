@@ -12,7 +12,6 @@ import {
   IUpdateOptions,
 } from "../../../database/interfaces/database.interfaces";
 import { UserService } from "../../users/services/user.service";
-import { BlogCreateDto } from "../dtos/blog.create.dto";
 import { BlogEntity } from "../entities/blog.entity";
 import { IBlog, IBlogService } from "../interfaces/blog.interface";
 import { BlogRepository } from "../repository/blog.repository";
@@ -40,6 +39,7 @@ export class BlogService implements IBlogService {
 
   async create(data: IBlog & { imageName?: string }, options?: ICreateOptions) {
     const user = await this._userService.getById(data.userId);
+
     if (!user) {
       throw new HttpException(HttpStatusCode.NOT_FOUND, "User Not Found");
     }

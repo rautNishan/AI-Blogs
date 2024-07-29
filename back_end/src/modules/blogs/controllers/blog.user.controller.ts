@@ -5,7 +5,6 @@ import {
   IFindByIdOptions,
   IPaginatedData,
 } from "../../../database/interfaces/database.interfaces";
-import { BlogCreateDto } from "../dtos/blog.create.dto";
 import { BlogEntity } from "../entities/blog.entity";
 import { BlogService } from "../services/blog.service";
 import { BlogSerialization } from "../serializations/blog.serialization";
@@ -46,12 +45,11 @@ export class BlogUserController {
     try {
       let data: BlogEntity | null;
       if (options?.protectedUserId) {
-        console.log("Searching for UserProtectedUserId");
-
         data = await this._blogService.findOneOrFail(id, {
           options: {
             where: { userId: options.protectedUserId },
-            select: ["id", "title", "subTitle", "userId", "tags"],
+            select: ["id", "title", "subTitle", "userId", "tags", "photos"],
+            relations: ["photos"],
           },
           ...options,
         });
@@ -60,7 +58,8 @@ export class BlogUserController {
       data = await this._blogService.findOneOrFail(id, {
         ...options,
         options: {
-          select: ["id", "title", "subTitle", "userId", "tags"],
+          select: ["id", "title", "subTitle", "userId", "tags", "photos"],
+          relations: ["photos"],
         },
       });
       return data;
