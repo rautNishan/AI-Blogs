@@ -74,7 +74,6 @@ export function Profile() {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log("This is Response: ", response.data.data);
 
         setUserInfo(response.data.data);
       } catch (error) {
@@ -100,7 +99,6 @@ export function Profile() {
         _pagination: IPaginationInfo;
         data: IBlogInfo[] | [];
       } = userBlogListResponse.data.data;
-      console.log("This is Incoming BlogList: ", incomingBlogList);
 
       const paginationInfo: IPaginationInfo = incomingBlogList._pagination;
       const blogList: IBlogInfo[] | [] = incomingBlogList.data;
@@ -126,6 +124,7 @@ export function Profile() {
         {blogs.length > 0 ? (
           blogs.map((blog) => (
             <BlogCard
+              id={blog.id}
               title={blog.title}
               imgUrl={`${BASE_BLOG_IMAGE_PATH}${blog.photos[0].fileName}`}
               subTitle={blog.subTitle}

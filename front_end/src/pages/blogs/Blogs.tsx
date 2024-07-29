@@ -9,6 +9,7 @@ export default function Blogs() {
   const img6 = "1715245418992_camilo-fierro-z7rcwqCi77s-unsplash-min.jpg";
   return (
     <div className={BlogsStyle.blogs}>
+      {/* To Do */}
       <BlogCard
         imgUrl={imgUrl}
         title="How AI is changing the world"

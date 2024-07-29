@@ -8,6 +8,7 @@ import Blogs from "./pages/blogs/Blogs";
 import Login from "./pages/login/Login";
 import { Profile } from "./pages/profile/Profile";
 import Register from "./pages/register/Register";
+import { BlogDetails } from "./pages/blogs/Blog.details";
 
 function App() {
   const { authenticated } = useContext(AuthContext);
@@ -29,6 +30,7 @@ function App() {
         <Route path="/error" element={<ErrorPage />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/blog-details/:id" element={<BlogDetails />}></Route>
       </Routes>
     </>
   );

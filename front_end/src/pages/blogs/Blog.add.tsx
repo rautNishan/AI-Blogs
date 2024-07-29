@@ -113,7 +113,6 @@ export function BlogAddPage() {
       tags: tagArr,
       imageName: fileName,
     };
-    console.log("This is data to send: ", dataToSend);
 
     try {
       const response = await fetch(`${BACKEND_BASE_URL}/user/blog/create`, {
