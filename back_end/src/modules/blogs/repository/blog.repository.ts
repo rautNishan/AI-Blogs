@@ -27,23 +27,21 @@ export class BlogRepository
     const where: Record<string, any> | any = options?.options?.where ?? {};
     where["id"] = id;
 
-    console.log("This is Where: ", where);
-
     const select: FindOptionsSelect<BlogEntity> | any =
       options?.options?.select;
 
     if (options?.entityManager) {
-      console.log("This is For Entity Manager");
-
       data = await options.entityManager.findOne(this.blogRepo.target, {
         where: where,
         select: select,
+        ...options?.options,
       });
     }
 
     data = await this.blogRepo.findOne({
       where: where,
       select: select,
+      ...options?.options,
     });
 
     if (!data) {

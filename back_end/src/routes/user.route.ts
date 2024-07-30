@@ -88,7 +88,6 @@ export function userRouterFactory(): Router {
     "/info/:id",
     asyncHandler(async (req: Request, res: Response) => {
       const { id } = req.params;
-      console.log("This is ID: ", id);
       const data = await userController.getById(Number(id));
       res.json(data);
     })

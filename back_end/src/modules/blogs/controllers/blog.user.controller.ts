@@ -48,20 +48,38 @@ export class BlogUserController {
         data = await this._blogService.findOneOrFail(id, {
           options: {
             where: { userId: options.protectedUserId },
-            select: ["id", "title", "subTitle", "userId", "tags", "photos"],
+            select: [
+              "id",
+              "title",
+              "subTitle",
+              "userId",
+              "description",
+              "tags",
+              "photos",
+            ],
             relations: ["photos"],
           },
           ...options,
         });
+
         return data;
       }
       data = await this._blogService.findOneOrFail(id, {
         ...options,
         options: {
-          select: ["id", "title", "subTitle", "userId", "tags", "photos"],
+          select: [
+            "id",
+            "title",
+            "subTitle",
+            "userId",
+            "tags",
+            "photos",
+            "description",
+          ],
           relations: ["photos"],
         },
       });
+
       return data;
     } catch (error) {
       throw error;
