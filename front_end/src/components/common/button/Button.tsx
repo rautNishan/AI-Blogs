@@ -1,7 +1,7 @@
 export interface ButtonProps {
   children: React.ReactNode;
   className?: string;
-  onClick?: () => void;
+  onClick: () => void;
 }
 
 export default function Button(buttonProps: ButtonProps) {
