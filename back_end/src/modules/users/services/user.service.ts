@@ -123,4 +123,16 @@ export class UserService implements IUserService<UserEntity> {
       ...options,
     });
   }
+
+  async updateById(
+    id: number,
+    dataToUpdate: DeepPartial<UserEntity>,
+    options?: IUpdateOptions
+  ): Promise<UserEntity> {
+    const existingUser = await this._userRepository.findOneOrFailById(id);
+    if (dataToUpdate.password) {
+      existingUser.password = dataToUpdate.password;
+    }
+    return await this._userRepository.update(existingUser, options);
+  }
 }

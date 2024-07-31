@@ -63,7 +63,7 @@ export function userRouterFactory(): Router {
   );
 
   userRouter.post(
-    "/create",
+    "/register",
     // UserProtectedGuard,
     RequestBodyValidation(UserCreateDto),
     asyncHandler(async (req: Request, res: Response) => {

@@ -97,7 +97,7 @@ export class BlogService implements IBlogService {
   ): Promise<BlogEntity> {
     console.log("This is Options in Service: ", options);
 
-    return await this._blogRepository.findOneOrFail(id, options);
+    return await this._blogRepository.findOneOrFailById(id, options);
   }
 
   async softDelete(
@@ -119,5 +119,21 @@ export class BlogService implements IBlogService {
     options?: IOnlyEntityManager | undefined
   ): Promise<BlogEntity> {
     return await this._blogRepository.restore(entity, options);
+  }
+
+  async updateById(
+    id: number,
+    dataToUpdate: DeepPartial<BlogEntity>,
+    options?: IUpdateOptions
+  ) {
+    const existingBlog: BlogEntity =
+      await this._blogRepository.findOneOrFailById(id);
+    if (dataToUpdate.title) {
+      existingBlog.title = dataToUpdate.title;
+    }
+    if (dataToUpdate.description) {
+      existingBlog.description = dataToUpdate.description;
+    }
+    return await this._blogRepository.update(existingBlog, options);
   }
 }

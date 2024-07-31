@@ -18,7 +18,7 @@ export class BlogRepository
     super(blogRepo);
   }
 
-  async findOneOrFail(
+  async findOneOrFailById(
     id: number,
     options?: IFindByIdOptions<BlogEntity>
   ): Promise<BlogEntity> {
