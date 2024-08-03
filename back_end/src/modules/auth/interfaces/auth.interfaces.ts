@@ -17,7 +17,7 @@ export interface IAuth {
   verifyPassword: (
     incomingPassword: string,
     dbPassword: string
-  ) => Promise<boolean>;
+  ) => Promise<void>;
 }
 
 export interface ILoginIncomingData {

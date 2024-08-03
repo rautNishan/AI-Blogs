@@ -9,7 +9,7 @@ import {
 import { FileImageUploadDto } from "../dtos/file.images.upload.dto";
 import { FileEntity } from "../entities/file.entity";
 import { FileRepository } from "../repository/file.repository";
-import { FILE_ASSOCIATED_TYPE } from "../../../common/file/constants/file.constants";
+import { IAssociationIncoming } from "../interfaces/file.interface";
 
 export class FileService {
   private static _instance: FileService;
@@ -62,10 +62,7 @@ export class FileService {
 
   async updateBlogWithAssociation(
     imageName: string,
-    incomingAssociation: {
-      associationId: number;
-      associationType: FILE_ASSOCIATED_TYPE;
-    },
+    incomingAssociation: IAssociationIncoming,
     options?: IUpdateOptions | undefined
   ) {
     const existingImage: FileEntity = await this.findOneOrFail(imageName);

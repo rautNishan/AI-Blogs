@@ -9,3 +9,8 @@ export interface IFile {
   associationId: number | null;
   associatedType: FILE_ASSOCIATED_TYPE | null;
 }
+
+export interface IAssociationIncoming {
+  associationId: number;
+  associationType: FILE_ASSOCIATED_TYPE;
+}

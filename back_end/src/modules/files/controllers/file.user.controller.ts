@@ -56,12 +56,15 @@ export class FileUserController {
         });
       });
       await filePromise;
-      console.log("This is FilePromise: ", filePromise);
       await this.saveFileInfoToDataBase(responseToSend);
       return responseToSend;
     } catch (error) {
       throw error;
     }
+  }
+
+  async writeFile(filePath: string, buffer: Buffer) {
+    
   }
 
   async removeImage(fileName: string) {

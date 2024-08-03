@@ -11,6 +11,7 @@ import * as bcrypt from "bcrypt";
 import { Repository } from "typeorm";
 import { HttpStatusCode } from "../../../common/constants/http.status.code";
 import { HttpException } from "../../../common/exceptions/http-exceptions";
+import requestConfig from "../../../common/request/config/request.config";
 import { DBConnection } from "../../../database/connection/connection";
 import { UserEntity } from "../../users/entities/user.entity";
 import { UserRepository } from "../../users/repository/user.repository";
@@ -19,8 +20,6 @@ import {
   ICreateTokenData,
   ILoginIncomingData,
 } from "../interfaces/auth.interfaces";
-import requestConfig from "../../../common/request/config/request.config";
-import { IAuthenticatedUser } from "../../../common/request/interfaces/request.paginated.interface";
 
 export class AuthService implements IAuth {
   private static _instance: AuthService;
@@ -43,55 +42,19 @@ export class AuthService implements IAuth {
 
   async login(incomingData: ILoginIncomingData): Promise<string> {
     try {
-      let existingUser: UserEntity | null = null;
-
-      if (incomingData.email) {
-        existingUser = await this._userRepository.getOne({
-          options: { where: { email: incomingData.email } },
-        });
-      }
-
-      if (incomingData.userName) {
-        existingUser = await this._userRepository.getOne({
-          options: { where: { userName: incomingData.userName } },
-        });
-      }
-
-      if (!existingUser) {
-        throw new HttpException(
-          HttpStatusCode.NOT_FOUND,
-          "User does not exists"
-        );
-      }
+      const validUser: UserEntity = await this.verifyValidUser(incomingData);
 
       //If there is user then check the incoming password
-
-      const isPasswordCorrect: boolean = await this.verifyPassword(
-        incomingData.password,
-        existingUser.password
-      );
-
-      if (!isPasswordCorrect) {
-        throw new HttpException(
-          HttpStatusCode.UNAUTHORIZED,
-          "Invalid Credential"
-        );
-      }
+      await this.verifyPassword(incomingData.password, validUser.password);
 
       //If password is correct return token
 
-      const payLoad: ICreateTokenData = {
-        id: existingUser.id,
-        userName: existingUser.userName,
-        userRole: existingUser.role,
-      };
+      const payLoad: ICreateTokenData = this.preparePayload(validUser);
 
       return await this.createToken(payLoad, requestConfig.secretKey!, {
         expiresIn: "1d",
       });
     } catch (error) {
-      console.log("This is Error: ", error);
-
       throw error;
     }
   }
@@ -123,11 +86,46 @@ export class AuthService implements IAuth {
   async verifyPassword(
     incomingPassword: string,
     dbPassword: string
-  ): Promise<boolean> {
+  ): Promise<void> {
     const isPasswordCorrect: boolean = await bcrypt.compare(
       incomingPassword,
       dbPassword
     );
-    return isPasswordCorrect;
+    if (!isPasswordCorrect) {
+      throw new HttpException(
+        HttpStatusCode.UNAUTHORIZED,
+        "Invalid Credential"
+      );
+    }
+  }
+
+  async verifyValidUser(incomingData: ILoginIncomingData) {
+    let existingUser: UserEntity | null = null;
+
+    if (incomingData.email) {
+      existingUser = await this._userRepository.getOne({
+        options: { where: { email: incomingData.email } },
+      });
+    }
+
+    if (incomingData.userName) {
+      existingUser = await this._userRepository.getOne({
+        options: { where: { userName: incomingData.userName } },
+      });
+    }
+
+    if (!existingUser) {
+      throw new HttpException(HttpStatusCode.NOT_FOUND, "User does not exists");
+    }
+
+    return existingUser;
+  }
+
+  preparePayload(validUser: UserEntity): ICreateTokenData {
+    return {
+      id: validUser.id,
+      userName: validUser.userName,
+      userRole: validUser.role,
+    };
   }
 }

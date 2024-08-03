@@ -37,21 +37,7 @@ export class UserService implements IUserService<UserEntity> {
   }
 
   async create(data: UserCreateDto, options?: ICreateOptions) {
-    //Check existing User
-    let existingUser: UserEntity | null;
-
-    existingUser = await this.getByEmail(data.email, options);
-
-    if (existingUser) {
-      throw new HttpException(HttpStatusCode.CONFLICT, "User Exists");
-    }
-
-    existingUser = await this.getByUserName(data.userName, options);
-
-    if (existingUser) {
-      throw new HttpException(HttpStatusCode.CONFLICT, "User Exists");
-    }
-
+    await this.checkForUserConflict(data, options);
     data.password = await bcrypt.hash(data.password, 10);
     return await this._userRepository.create(data, options);
   }
@@ -134,5 +120,24 @@ export class UserService implements IUserService<UserEntity> {
       existingUser.password = dataToUpdate.password;
     }
     return await this._userRepository.update(existingUser, options);
+  }
+
+  async checkForUserConflict(
+    data: UserCreateDto,
+    options?: ICreateOptions
+  ): Promise<void> {
+    let existingUser: UserEntity | null;
+
+    existingUser = await this.getByEmail(data.email, options);
+
+    if (existingUser) {
+      throw new HttpException(HttpStatusCode.CONFLICT, "User Exists");
+    }
+
+    existingUser = await this.getByUserName(data.userName, options);
+
+    if (existingUser) {
+      throw new HttpException(HttpStatusCode.CONFLICT, "User Exists");
+    }
   }
 }
